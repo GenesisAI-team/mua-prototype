@@ -1,0 +1,87 @@
+---
+import Media from '@/components/Media.astro';
+import { site } from '@/data/site';
+---
+
+<section id="contacto" class="section contact" aria-labelledby="contact-title">
+  <div class="page-shell contact-grid">
+    <div>
+      <span class="section-label">Contacto</span>
+      <h2 id="contact-title" class="contact-title">Hablemos de tus uñas.</h2>
+      <p class="body-lg contact-copy">
+        Escríbenos por Instagram o llámanos para consultar disponibilidad.
+        Confirmamos contigo forma, largo y acabado antes de la cita.
+      </p>
+
+      <a class="contact-phone" href={site.phone.href}>{site.phone.display}</a>
+      <span class="provisional-tag" style="margin-top: 0.75rem;">
+        Teléfono provisional pendiente de confirmar
+      </span>
+
+      <div class="contact-actions">
+        <a class="button button--light" href={site.phone.href}>Llamar ahora</a>
+        <a
+          class="text-link"
+          href={site.instagram.url}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {site.instagram.handle}
+        </a>
+      </div>
+
+      <div class="contact-details">
+        <div class="contact-detail">
+          <span class="contact-detail__label">Dirección</span>
+          <span class="contact-detail__value">
+            {site.address.line1}<br />
+            {site.address.line2}
+          </span>
+          <span class="contact-detail__note">Número exacto pendiente de confirmar.</span>
+        </div>
+
+        <div class="contact-detail">
+          <span class="contact-detail__label">Horario</span>
+          <span class="contact-detail__value">{site.hours.label}</span>
+          <span class="contact-detail__note">Consulta disponibilidad antes de venir.</span>
+        </div>
+
+        <div class="contact-detail">
+          <span class="contact-detail__label">Instagram</span>
+          <a
+            class="contact-detail__value"
+            href={site.instagram.url}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {site.instagram.handle}
+          </a>
+          <span class="contact-detail__note">Canal principal de consulta.</span>
+        </div>
+
+        <div class="contact-detail">
+          <span class="contact-detail__label">Cita</span>
+          <span class="contact-detail__value">Confirmación personal</span>
+          <span class="contact-detail__note">
+            Sin formularios ni reservas automáticas.
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-map" data-reveal>
+      <Media slot="map" class="contact-map__media" />
+      <div class="contact-map__footer">
+        <span>Mapa orientativo · ubicación pendiente de confirmar</span>
+        <a
+          class="text-link"
+          href={site.mapsUrl}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Abrir en Google Maps
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

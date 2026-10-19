@@ -1,0 +1,80 @@
+---
+import Media from '@/components/Media.astro';
+import { site } from '@/data/site';
+---
+
+<section id="inicio" class="hero" aria-labelledby="hero-title" data-hero>
+  <div class="page-shell">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="section-label">{site.name} · {site.city}</span>
+
+        <h1
+          id="hero-title"
+          class="hero-title"
+          aria-label="Tu estilo está en los detalles."
+          data-hero-title
+        >
+          <span class="hero-line">
+            <span class="hero-line__inner">Tu estilo</span>
+          </span>
+          <span class="hero-line">
+            <span class="hero-line__inner">está en los</span>
+          </span>
+          <span class="hero-line">
+            <span class="hero-line__inner"><em>detalles</em>.</span>
+          </span>
+        </h1>
+
+        <p class="body-lg hero-sub" data-hero-sub>
+          Manicura, esmaltado semipermanente y uñas acrílicas en Pamplona. Un ritmo
+          pausado, luz natural y atención al detalle.
+        </p>
+
+        <div class="hero-actions" data-hero-actions>
+          <a class="button" href="#contacto">Consultar disponibilidad</a>
+          <a class="button button--ghost" href="#servicios">Ver servicios</a>
+        </div>
+
+        <p class="hero-note" data-reveal>
+          <span class="provisional-tag">Datos de contacto provisionales</span>
+          <span>Confirmación por teléfono o Instagram.</span>
+        </p>
+
+        <div class="hero-meta" data-reveal>
+          <div>
+            <span class="hero-meta__label">Servicios</span>
+            <span class="hero-meta__value">Manicura<br />Acrílicas</span>
+          </div>
+          <div>
+            <span class="hero-meta__label">Estudio</span>
+            <span class="hero-meta__value">{site.city}<br />{site.region}</span>
+          </div>
+          <div>
+            <span class="hero-meta__label">Contacto</span>
+            <span class="hero-meta__value">Teléfono<br />Instagram</span>
+          </div>
+        </div>
+
+        <a class="scroll-cue" href="#manifiesto">
+          <span class="scroll-cue__line" aria-hidden="true"></span>
+          Seguir leyendo
+        </a>
+      </div>
+
+      <div class="hero-visual" data-hero-visual>
+        <span class="hero-side-note" aria-hidden="true">MUA · Estética · Pamplona</span>
+        <div class="hero-frame" aria-hidden="true"></div>
+        <Media
+          slot="hero-desktop"
+          class="hero-visual__media hero-visual__media--desktop"
+          eager
+        />
+        <Media
+          slot="hero-mobile"
+          class="hero-visual__media hero-visual__media--mobile"
+        />
+      </div>
+    </div>
+  </div>
+</section>

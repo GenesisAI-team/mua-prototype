@@ -1,0 +1,92 @@
+---
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { site } from '@/data/site';
+import '@/styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = `${site.name} · Manicura y uñas en ${site.city}`,
+  description =
+    'Manicura, esmaltado semipermanente y uñas acrílicas en Pamplona. Propuesta de sitio no oficial con información provisional.',
+  noindex = true,
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL?.replace(/\/+$/, '') ?? null;
+const canonical = siteUrl ? new URL(Astro.url.pathname, siteUrl).href : null;
+const robots = noindex ? 'noindex, nofollow' : 'index, follow';
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  inLanguage: 'es-ES',
+  description,
+  ...(siteUrl ? { url: siteUrl } : {}),
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#F5F0E9" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      window.__muaMotionFallback = window.setTimeout(function () {
+        document.documentElement.classList.add('motion-failed');
+      }, 2500);
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <div class="preview-banner" role="note">
+      Propuesta no oficial · Contenido provisional · Sitio no indexado
+    </div>
+
+    <Header />
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script>
+      import { initMotion } from '@/scripts/motion';
+      import { initHeader } from '@/scripts/ui/header';
+
+      initHeader();
+      initMotion();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+---
+import { imageSlots } from '@/data/images';
+import type { ImageSlotId, ImageTone } from '@/data/images';
+
+interface Props {
+  slot: ImageSlotId;
+  class?: string;
+  eager?: boolean;
+  reveal?: boolean;
+  tone?: ImageTone;
+}
+
+const {
+  slot,
+  class: className = '',
+  eager = false,
+  reveal = true,
+  tone,
+} = Astro.props;
+
+const image = imageSlots[slot];
+const toneClass = `media--${tone ?? image.tone}`;
+---
+
+<div
+  class:list={['media', toneClass, className]}
+  style={`aspect-ratio: ${image.ratio};`}
+  role="img"
+  aria-label={image.alt}
+  data-image-reveal={reveal ? '' : undefined}
+>
+  <div class="media__inner" data-image-inner>
+    {
+      image.src ? (
+        <img
+          class="media__img"
+          src={image.src}
+          alt=""
+          width={image.width}
+          height={image.height}
+          loading={eager ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchpriority={eager ? 'high' : 'auto'}
+        />
+      ) : (
+        <div class="media__placeholder" aria-hidden="true">
+          <span class="media__corner media__corner--tl" />
+          <span class="media__label">{image.label}</span>
+          <span class="media__meta">
+            {image.width} × {image.height} · {image.futureFile}
+          </span>
+          <span class="media__corner media__corner--br" />
+        </div>
+      )
+    }
+  </div>
+</div>

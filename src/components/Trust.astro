@@ -1,0 +1,63 @@
+---
+import { principles, visitSteps } from '@/data/content';
+---
+
+<section id="confianza" class="section trust" aria-labelledby="trust-title">
+  <div class="page-shell">
+    <div class="trust-grid">
+      <div data-reveal>
+        <span class="section-label">La experiencia</span>
+        <h2 id="trust-title" class="trust-title">Cuidado sin ruido.</h2>
+        <p class="body-lg" style="margin-top: 1.5rem; max-width: 30rem;">
+          Tres principios sencillos para que la experiencia sea clara desde el
+          primer mensaje.
+        </p>
+      </div>
+
+      <div class="trust-principles">
+        {principles.map((principle) => (
+          <div class="principle" data-reveal>
+            <span class="principle__mark" aria-hidden="true"></span>
+            <div>
+              <h3 class="principle__title">{principle.title}</h3>
+              <p class="principle__text">{principle.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="review-note" data-reveal>
+      <div>
+        <span class="review-note__label">Reseñas</span>
+        <p class="review-note__title">Pendientes de verificación.</p>
+      </div>
+      <p class="review-note__meta">
+        Fuente y fecha pendientes. No publicamos testimonios ni valoraciones
+        hasta contar con reseñas verificables.
+      </p>
+    </div>
+
+    <div class="visit">
+      <div class="section-head">
+        <h3 class="display" style="font-size: clamp(2rem, 3.5vw, 3.4rem);">
+          Cómo funciona la visita
+        </h3>
+        <p class="body-sm section-head__copy">
+          Sin formularios ni reservas automáticas: primero hablamos y después
+          confirmamos la cita.
+        </p>
+      </div>
+
+      <div class="visit-grid">
+        {visitSteps.map((step, index) => (
+          <div class="visit-step" data-reveal>
+            <span class="visit-step__number">0{index + 1}</span>
+            <h4 class="visit-step__title">{step.title}</h4>
+            <p class="visit-step__text">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

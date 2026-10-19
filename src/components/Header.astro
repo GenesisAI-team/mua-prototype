@@ -1,0 +1,86 @@
+---
+import { navigation } from '@/data/content';
+import { site } from '@/data/site';
+---
+
+<header class="site-header" data-header>
+  <div class="page-shell header-inner">
+    <a class="brand" href="#inicio" aria-label={`${site.name}, volver al inicio`}>
+      <span class="brand__mark">{site.shortName}</span>
+      <span class="brand__descriptor">Estética</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navegación principal">
+      {navigation.map((item) => (
+        <a class="nav-link" href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="header-actions">
+      <a class="header-call" href={site.phone.href}>
+        Llamar
+        <span aria-hidden="true">↗</span>
+      </a>
+      <button
+        class="menu-button"
+        type="button"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Abrir menú de navegación"
+        data-menu-open
+      >
+        <span class="menu-button__lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <noscript>
+    <nav class="page-shell no-js-nav" aria-label="Navegación sin JavaScript">
+      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a href={site.phone.href}>{site.phone.display}</a>
+    </nav>
+  </noscript>
+</header>
+
+<dialog id="mobile-menu" class="mobile-menu" aria-labelledby="mobile-menu-title" data-menu>
+  <div class="mobile-menu__inner">
+    <div class="mobile-menu__top">
+      <a class="brand" href="#inicio" aria-label={`${site.name}, volver al inicio`}>
+        <span class="brand__mark">{site.shortName}</span>
+        <span class="brand__descriptor">Estética</span>
+      </a>
+      <button
+        class="mobile-menu__close"
+        type="button"
+        aria-label="Cerrar menú de navegación"
+        data-menu-close
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+
+    <h2 id="mobile-menu-title" class="sr-only">Navegación principal</h2>
+
+    <nav class="mobile-menu__nav" aria-label="Navegación móvil">
+      {navigation.map((item, index) => (
+        <a class="mobile-menu__link" href={item.href} data-menu-link>
+          {item.label}
+          <span>{String(index + 1).padStart(2, '0')}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="mobile-menu__footer">
+      <a class="button" href={site.phone.href}>
+        Llamar · {site.phone.display}
+      </a>
+      <a class="text-link" href={site.instagram.url} rel="noopener noreferrer" target="_blank">
+        {site.instagram.handle} en Instagram
+      </a>
+      <span class="provisional-tag">Teléfono y horario provisionales</span>
+    </div>
+  </div>
+</dialog>
