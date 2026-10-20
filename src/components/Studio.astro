@@ -1,0 +1,32 @@
+---
+import Media from '@/components/Media.astro';
+---
+
+<section id="estudio" class="section studio" aria-labelledby="studio-title">
+  <div class="page-shell studio-grid">
+    <div data-reveal>
+      <span class="section-label">El espacio</span>
+      <h2 id="studio-title" class="studio-title">Un espacio para el detalle.</h2>
+      <p class="body-lg studio-copy">
+        La dirección visual parte de paredes claras, madera y luz natural. Un
+        entorno sereno para mirar las manos sin prisa.
+      </p>
+      <p class="body-sm" style="margin-top: 1rem; max-width: 32rem;">
+        Un estudio de manicura en Pamplona donde el proceso importa tanto como el
+        resultado.
+      </p>
+      <p class="studio-quote">La calma también forma parte del acabado.</p>
+    </div>
+
+    <div class="studio-media" data-reveal>
+      <Media slot="studio-salon" class="studio-media__main" />
+      <Media slot="studio-detail" class="studio-media__detail" />
+    </div>
+  </div>
+
+  <div class="page-shell">
+    <p class="body-sm studio-note">
+      Interiores de referencia pendientes de sustitución por fotografías del local.
+    </p>
+  </div>
+</section>

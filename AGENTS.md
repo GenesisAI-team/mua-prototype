@@ -49,7 +49,7 @@ Antes de modificar motion o diseño, leer la skill correspondiente. No ejecutar 
 
 ## Validaciones mínimas antes de PR
 
-Con Node 22.22.2 (ver `.node-version`):
+Con Node 22.22.3 (ver `.node-version`):
 
 ```bash
 npm ci

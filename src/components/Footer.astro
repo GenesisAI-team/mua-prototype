@@ -1,0 +1,27 @@
+---
+import { navigation } from '@/data/content';
+import { site } from '@/data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="page-shell">
+    <div class="footer-top">
+      <div class="footer-wordmark">
+        {site.shortName}
+        <span>{site.name} · {site.city}</span>
+      </div>
+
+      <nav class="footer-nav" aria-label="Navegación del pie">
+        {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a href={site.instagram.url} rel="noopener noreferrer" target="_blank">Instagram</a>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {year} {site.name}</span>
+      <span class="footer-badge">Propuesta no oficial · Datos provisionales · No indexado</span>
+    </div>
+  </div>
+</footer>
