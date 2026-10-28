@@ -35,3 +35,10 @@ El componente `Media.astro` detecta `src` y cambia el placeholder por `<img>` co
 - No añadir texto quemado en las imágenes.
 - Mantener el ratio para evitar saltos de layout.
 - Validar que las personas que aparezcan hayan autorizado el uso.
+
+## Documentación de generación visual — GEN-12
+
+- [10 prompts maestros base](ASSET_PROMPTS.md): versiones iniciales para hero, servicios, interior, fachada y CTA; no representan cada iteración realmente ejecutada.
+- [Auditoría retrospectiva del proceso](ASSET_GENERATION_AUDIT.md): casi dos semanas de trabajo, retos de fidelidad espacial de interior/fachada y propuesta futura de edición localizada y control geométrico.
+
+Los assets finales del usuario se incorporarán y mapearán en esta página al ejecutar GEN-12; **no están todavía incluidos en esta rama**.
