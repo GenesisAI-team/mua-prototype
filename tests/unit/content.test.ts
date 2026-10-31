@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  additionalServices,
   gallery,
   navigation,
   principles,
@@ -10,7 +11,7 @@ import { imageSlots } from '../../src/data/images';
 import { site } from '../../src/data/site';
 
 describe('confirmed content', () => {
-  it('only lists the two services with public evidence', () => {
+  it('keeps the two core services as the main service cards', () => {
     expect(services.map((service) => service.id)).toEqual([
       'semipermanente',
       'acrilicas',
@@ -21,8 +22,22 @@ describe('confirmed content', () => {
     ]);
   });
 
+  it('lists the additional services confirmed by the user', () => {
+    expect(additionalServices).toEqual([
+      'Pedicura',
+      'Diseño de cejas',
+      'Tratamiento facial',
+    ]);
+  });
+
   it('does not include prices, bookings or clinical promises', () => {
-    const copy = JSON.stringify({ services, principles, visitSteps, gallery });
+    const copy = JSON.stringify({
+      services,
+      additionalServices,
+      principles,
+      visitSteps,
+      gallery,
+    });
 
     expect(copy).not.toMatch(/\b\d+\s?€\b/);
     expect(copy).not.toMatch(/precio|tarifa|reserva online|resultado garantizado/i);

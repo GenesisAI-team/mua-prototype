@@ -41,6 +41,7 @@ const toneClass = `media--${tone ?? image.tone}`;
           loading={eager ? 'eager' : 'lazy'}
           decoding="async"
           fetchpriority={eager ? 'high' : 'auto'}
+          style={`object-position: ${image.objectPosition ?? '50% 50%'};`}
         />
       ) : (
         <div class="media__placeholder" aria-hidden="true">

@@ -71,6 +71,12 @@ La estrategia de **cuatro variantes independientes por solicitud** resultó úti
 - Resolución, WebP/AVIF, peso, alt text, fecha, revisión visual, efectos de movimiento aplicados.
 - Qué material se descarta, por qué y si hace falta otra toma.
 
+## Aprobación y uso en GEN-12
+
+El **31 de octubre de 2026** el usuario confirmó la entrega completa del lote: 23 WebP y 23 JPG equivalentes en `C:\Users\jeffe\Pictures\MUA-ESTETICA`, con `_manifest.csv` y todos los WebP verificables. Autorizó su uso como **recreaciones visuales con IA**, no como fotografías reales, y aprobó expresamente la fachada con el rótulo **“Muā”**.
+
+Se seleccionaron **11 WebP** para cubrir **12 slots**; `gallery-05` reutiliza el archivo de acrílicas con otro recorte. El mapa no se sustituye porque no hay una ubicación verificable. La procedencia, los recortes, las alternativas descartadas y el estado de cada slot están en [IMAGES.md](IMAGES.md).
+
 ## Estado de implementación
 
-Los diez prompts base están archivados en [ASSET_PROMPTS.md](ASSET_PROMPTS.md), pero **no se considera completa la integración** hasta recibir e incorporar los archivos finales elegidos por el usuario y validar que los 13 slots existentes (o los que realmente use el diseño) tienen contenido correcto. La auditoría y sus recomendaciones no autorizan una nueva issue de tooling por sí solas.
+Los diez prompts base están archivados en [ASSET_PROMPTS.md](ASSET_PROMPTS.md). La integración de los assets seleccionados está documentada y validada; no se han generado imágenes nuevas en esta issue. La auditoría y sus recomendaciones no autorizan una nueva issue de tooling por sí solas.

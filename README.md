@@ -2,11 +2,11 @@
 
 Propuesta **no oficial** de la nueva web de MUA Estética (Pamplona). Astro 7 estático, TypeScript estricto, Tailwind CSS 4 y una capa de motion con GSAP + ScrollTrigger + Lenis.
 
-El objetivo de esta rama (GEN-9) es dejar resuelta la plantilla visual y técnica: secciones, responsive, navegación, placeholders, SEO prudente y experiencia de scroll. Las fotografías definitivas se incorporarán en una iteración posterior sin rehacer la landing.
+La base es GEN-9: plantilla visual, responsive, navegación, SEO prudente y experiencia de scroll. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas, sin rehacer el motion.
 
-- Issue: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets)
+- Issues: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets) · [GEN-12](https://linear.app/genesisnavarra/issue/GEN-12/mua-estetica-integrar-imagenes-finales-y-documentar-prompts-y)
 - Repo: `GenesisAI-team/mua-prototype`
-- Rama: `feat/GEN-9-mua-motion-template-v1`
+- Rama: `feat/GEN-12-mua-final-assets`
 
 ## Requisitos
 
@@ -51,26 +51,30 @@ tests/
 docs/
   ARCHITECTURE.md   Decisiones técnicas y de motion
   SKILLS.md         Skills instaladas y uso
-  IMAGES.md         Inventario y sustitución de imágenes
+  IMAGES.md         Inventario, procedencia y sustitución de imágenes
+  ASSET_PROMPTS.md  Prompts base del lote visual
+  ASSET_GENERATION_AUDIT.md  Auditoría del proceso de generación
 ```
 
 ## Estado del contenido
 
-- Servicios mostrados: **manicura / esmaltado semipermanente** y **uñas acrílicas / extensiones**.
+- Servicios: **manicura / esmaltado semipermanente**, **uñas acrílicas / extensiones**, **pedicura**, **diseño de cejas** y **tratamiento facial**. La landing destaca los dos primeros y menciona el resto.
 - Teléfono `747 49 66 24`, dirección en Calle de Artica, horario y reseñas están marcados como **provisionales** en la UI y en `src/data/site.ts`.
 - No hay precios, profesionales, historia, testimonios, productos ni sistema de reservas.
 - El sitio lleva el aviso visible de propuesta no oficial, `noindex, nofollow` y `robots.txt` con `Disallow: /`.
-- Las imágenes son placeholders editoriales. No se presentan como trabajos reales.
+- Las imágenes son recreaciones visuales con IA, presentadas como **“Imágenes ilustrativas”**; no son fotografías reales ni trabajos verificados. El mapa sigue pendiente.
 
 ## Imágenes
 
-Cada hueco está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones, alt, tono y archivo futuro. Para sustituir una imagen:
+Cada slot está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones reales, alt, tono, `src` y `objectPosition`. Los 11 WebP integrados viven en `public/images/`; `gallery-05` reutiliza el archivo de acrílicas con otro recorte.
 
-1. Guarda el archivo en `public/images/` con el nombre de `futureFile`.
-2. Cambia `src: null` por `src: '/images/<archivo>'` en el slot correspondiente.
-3. Revisa recorte, alt y contraste. No hace falta tocar el layout ni el motion.
+Para sustituir una recreación por una fotografía real autorizada:
 
-Inventario completo en [docs/IMAGES.md](docs/IMAGES.md).
+1. Guarda el archivo optimizado en `public/images/`.
+2. Actualiza `src`, `alt`, `width`, `height` y `objectPosition` en el slot correspondiente.
+3. Revisa recorte, contraste y la etiqueta de imagen ilustrativa. No hace falta tocar el layout ni el motion.
+
+Inventario, procedencia y descartes en [docs/IMAGES.md](docs/IMAGES.md).
 
 ## Motion
 
