@@ -36,35 +36,41 @@ export const services: readonly Service[] = [
   },
 ];
 
+export const additionalServices = [
+  'Pedicura',
+  'Diseño de cejas',
+  'Tratamiento facial',
+] as const;
+
 export const gallery = [
   {
     slot: 'gallery-01',
-    caption: 'Detalle de manicura',
+    caption: 'Manicura en proceso',
     position: 'wide',
   },
   {
     slot: 'gallery-02',
-    caption: 'Acabado natural',
+    caption: 'Pedicura spa',
     position: 'tall',
   },
   {
     slot: 'gallery-03',
-    caption: 'Textura y color',
+    caption: 'Detalle de marca',
     position: 'square',
   },
   {
     slot: 'gallery-04',
-    caption: 'Luz de estudio',
+    caption: 'Fachada',
     position: 'landscape',
   },
   {
     slot: 'gallery-05',
-    caption: 'Detalle editorial',
+    caption: 'Detalle en burdeos',
     position: 'tall',
   },
   {
     slot: 'gallery-06',
-    caption: 'Inspiración de estilo',
+    caption: 'Tratamiento facial',
     position: 'portrait',
   },
 ] as const satisfies readonly {

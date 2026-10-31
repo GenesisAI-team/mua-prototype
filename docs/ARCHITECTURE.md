@@ -1,17 +1,17 @@
-# Arquitectura — GEN-9
+# Arquitectura — MUA Estética
 
 ## Resumen
 
 Landing estática de una sola página construida con Astro 7 (`output: 'static'`), TypeScript `strictest` y Tailwind CSS 4 mediante `@tailwindcss/vite`. No hay React, CMS, backend, formularios ni reservas.
 
-La prioridad es que la composición y el motion estén resueltos antes de incorporar las fotografías definitivas. Los slots de imagen son parte del layout, no un añadido posterior.
+La base es GEN-9: composición, responsive, navegación, motion y SEO prudente. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas. Los slots de imagen son parte del layout, no un añadido posterior.
 
 ## Capas
 
 - `src/data/site.ts`: datos de contacto y estado provisional. Es la única fuente para teléfono, dirección, horario e Instagram.
-- `src/data/content.ts`: navegación, servicios confirmados, galería, principios y pasos de visita.
-- `src/data/images.ts`: inventario tipado de huecos de imagen. Incluye id, sección, ratio, dimensiones, alt, tono, nota de dirección y archivo futuro.
-- `src/components/Media.astro`: renderiza una imagen real si `src` existe; si no, un placeholder editorial con `role="img"`, `aria-label`, esquinas y etiqueta de desarrollo.
+- `src/data/content.ts`: navegación, servicios principales y adicionales, galería, principios y pasos de visita.
+- `src/data/images.ts`: inventario tipado de imágenes. Incluye id, sección, ratio, dimensiones reales, alt, tono, nota, `src` y `objectPosition`.
+- `src/components/Media.astro`: renderiza la imagen si `src` existe; si no, un placeholder editorial con `role="img"`, `aria-label`, esquinas y etiqueta de desarrollo.
 - `src/layouts/BaseLayout.astro`: metadatos, aviso de preview, JSON-LD mínimo, header/footer y arranque de scripts.
 - `src/styles/global.css`: tokens `@theme`, tipografías Fontsource, componentes editoriales y estados de motion. No hay `tailwind.config`.
 - `src/scripts/ui/header.ts`: header sticky, menú móvil con `<dialog>` y bloqueo de scroll.
@@ -21,13 +21,13 @@ La prioridad es que la composición y el motion estén resueltos antes de incorp
 
 ### Contenido prudente
 
-Solo se publican los dos servicios con evidencia pública. Los datos sensibles se muestran como provisionales y no se incluye schema `LocalBusiness` con teléfono, dirección ni reseñas sin verificar. El JSON-LD se limita a `WebSite` con nombre, idioma y descripción.
+La sección de servicios destaca dos tarjetas principales —manicura/esmaltado semipermanente y uñas acrílicas/extensiones— y una línea con pedicura, diseño de cejas y tratamiento facial, confirmados por el usuario. No se publican precios, profesionales, historia, testimonios ni reservas. Los datos sensibles se muestran como provisionales y no se incluye schema `LocalBusiness` con teléfono, dirección ni reseñas sin verificar. El JSON-LD se limita a `WebSite` con nombre, idioma y descripción.
 
 ### Imágenes
 
-No se usan fotos de Instagram, imágenes generadas ni recursos externos. Los placeholders son CSS, tienen ratio y dimensiones explícitas y no generan saltos de layout. La sustitución se hace cambiando `src` y el archivo en `public/images/`.
+Los 11 WebP integrados son recreaciones visuales con IA autorizadas, no fotografías reales del local. La UI los presenta como **“Imágenes ilustrativas”** y la documentación registra procedencia, destino, recortes y descartes. No se usan fotos de Instagram ni stock externo. El mapa sigue pendiente para no inventar una ubicación.
 
-El hero tiene dos slots (`hero-desktop` y `hero-mobile`) para permitir dirección de arte distinta sin rehacer el componente. En la V1 se alternan por breakpoint.
+Cada slot declara ratio, dimensiones reales y, cuando hace falta, `objectPosition`; así el recorte no genera saltos de layout. El hero tiene dos slots (`hero-desktop` y `hero-mobile`) con dirección de arte distinta y carga prioritaria. El resto de imágenes usa lazy loading. `gallery-05` reutiliza el WebP de acrílicas con otro recorte para no duplicar archivos.
 
 ### Motion
 
@@ -48,7 +48,7 @@ No hay router ni navegación entre páginas. La página es estática y las ancla
 
 - Un solo `h1` y jerarquía de encabezados por sección.
 - Skip link, foco visible y menú móvil con `<dialog>` y cierre por `Esc`.
-- Placeholders con `role="img"` y `aria-label`; el texto visible de desarrollo queda oculto a lectores.
+- Imágenes y placeholders con `role="img"` y `aria-label` descriptivo; el `<img>` lleva `alt=""` para no duplicar la etiqueta accesible. El texto visible de desarrollo queda oculto a lectores.
 - Sin dependencia de hover para acceder al contenido.
 - Tamaños táctiles de al menos 44 px en controles principales.
 
@@ -56,12 +56,13 @@ No hay router ni navegación entre páginas. La página es estática y las ancla
 
 - `title`, `meta description`, canonical y OG solo cuando existe `PUBLIC_SITE_URL`.
 - `noindex, nofollow` por defecto y `robots.txt` bloqueante.
-- Sin imágenes OG hasta disponer de un recurso autorizado.
+- Sin imagen OG configurada todavía; el lote ilustrativo está autorizado, pero falta definir el recurso de compartición.
 - Sin datos estructurados de dirección, teléfono, horarios o reseñas no verificados.
 
 ## Pendiente en la siguiente iteración
 
-- Sustituir los 13 slots por imágenes autorizadas y optimizadas.
+- Incorporar el mapa estático cuando la ubicación esté verificada.
+- Sustituir las recreaciones ilustrativas por fotografías reales autorizadas cuando existan.
 - Validar teléfono, dirección, horario y reseñas.
 - Añadir imagen OG y canonical de producción.
 - Retirar el aviso de propuesta y el `noindex` solo con autorización.
