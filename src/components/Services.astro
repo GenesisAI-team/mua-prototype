@@ -1,6 +1,11 @@
 ---
 import Media from '@/components/Media.astro';
-import { services } from '@/data/content';
+import { additionalServices, services } from '@/data/content';
+
+const additionalServicesCopy = additionalServices
+  .join(', ')
+  .toLowerCase()
+  .replace(/, ([^,]+)$/, ' y $1');
 ---
 
 <section id="servicios" class="section services" aria-labelledby="services-title">
@@ -13,8 +18,8 @@ import { services } from '@/data/content';
         y extensiones para trabajar forma y longitud.
       </p>
       <p class="body-sm" style="margin-top: 1rem; max-width: 31rem;">
-        Estos son los servicios con información confirmada. Para cualquier otra
-        consulta, escríbenos.
+        También ofrecemos {additionalServicesCopy}. Consúltanos por teléfono o
+        Instagram para confirmar disponibilidad.
       </p>
       <div class="services-progress" aria-hidden="true">
         <span class="services-progress__fill" data-service-progress></span>

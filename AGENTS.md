@@ -31,9 +31,9 @@ Guía operativa para agentes de código (OpenCode, Codex, etc.). **La issue de L
 
 - **No inventar** profesionales, historia, testimonios, precios, horarios, productos, promesas clínicas ni un sistema de reservas.
 - Datos sensibles (teléfono, dirección, horario, reseñas) se marcan como provisionales en `src/data/site.ts` y se señalan en la UI/documentación. Nunca presentarlos como verificados.
-- Servicios con evidencia pública: manicura/esmaltado semipermanente y uñas acrílicas/extensiones. Cualquier otro servicio requiere confirmación.
+- Servicios confirmados por el usuario: manicura/esmaltado semipermanente, uñas acrílicas/extensiones, pedicura, diseño de cejas y tratamiento facial. Cualquier otro servicio requiere confirmación.
 - No atribuir a MUA servicios de terceros del mismo local.
-- Imágenes: placeholders editoriales hasta la iteración de assets. No usar fotos de Instagram sin autorización ni presentar imágenes ficticias como trabajos reales.
+- Imágenes: los WebP integrados son recreaciones visuales con IA autorizadas y se presentan como **“Imágenes ilustrativas”**. No son fotografías reales ni trabajos verificados. No usar fotos de Instagram sin autorización; el mapa permanece pendiente.
 - El sitio es una **propuesta no oficial**: mantener el aviso visible y `noindex` hasta autorización de publicación.
 
 ## Skills del proyecto

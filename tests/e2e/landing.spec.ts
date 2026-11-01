@@ -46,20 +46,58 @@ test.describe('MUA landing', () => {
     await expect(page.locator('form')).toHaveCount(0);
   });
 
-  test('renders every image slot as an accessible placeholder', async ({
+  test('integrates the selected images and keeps the map pending', async ({
     page,
   }) => {
     await page.goto('/');
 
     const media = page.locator('[data-image-reveal]');
-    expect(await media.count()).toBeGreaterThanOrEqual(12);
-    await expect(page.locator('.media__label:visible').first()).toBeVisible();
+    expect(await media.count()).toBeGreaterThanOrEqual(13);
+    await expect(page.locator('.media__img')).toHaveCount(12);
+    await expect(page.locator('.media__label')).toHaveCount(1);
+    await expect(page.locator('.media__label')).toHaveText('MAPA PENDIENTE');
+    await expect(page.getByText('Imágenes ilustrativas').first()).toBeVisible();
 
     const labelled = await media.evaluateAll((nodes) =>
       nodes.every((node) => (node.getAttribute('aria-label') ?? '').length > 20),
     );
 
     expect(labelled).toBe(true);
+  });
+
+  test('loads the integrated images after scrolling the page', async ({
+    page,
+  }) => {
+    await page.goto('/');
+
+    await page.mouse.move(100, 400);
+    for (let step = 0; step < 10; step += 1) {
+      await page.mouse.wheel(0, 900);
+      await page.waitForTimeout(120);
+    }
+
+    const images = page.locator('.media__img:visible');
+    const imageCount = await images.count();
+
+    for (let index = 0; index < imageCount; index += 1) {
+      await images.nth(index).scrollIntoViewIfNeeded();
+      await page.waitForTimeout(100);
+    }
+
+    await expect
+      .poll(
+        () =>
+          images.evaluateAll((nodes) =>
+            nodes.every(
+              (node) =>
+                node instanceof HTMLImageElement &&
+                node.complete &&
+                node.naturalWidth > 0,
+            ),
+          ),
+        { timeout: 10_000 },
+      )
+      .toBe(true);
   });
 
   test('has no horizontal overflow', async ({ page }) => {
@@ -140,7 +178,8 @@ test.describe('MUA landing', () => {
     await expect(
       page.getByRole('navigation', { name: 'Navegación sin JavaScript' }),
     ).toBeVisible();
-    await expect(page.locator('.media__label:visible').first()).toBeVisible();
+    await expect(page.locator('.media__img')).toHaveCount(12);
+    await expect(page.locator('.media__label:visible')).toHaveCount(1);
 
     await context.close();
   });
