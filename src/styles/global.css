@@ -589,8 +589,7 @@
     grid-template-areas:
       'main main'
       'facade facade'
-      'tile-one tile-two'
-      'portrait detail';
+      'rail-h rail-h';
     gap: 0.6rem;
   }
 
@@ -608,26 +607,23 @@
   .hero-visual__media--facade {
     grid-area: facade;
     aspect-ratio: 4 / 3;
-  }
-
-  .hero-visual__media--detail {
-    grid-area: detail;
-    aspect-ratio: 1 / 1;
-  }
-
-  .hero-visual__media--portrait {
-    grid-area: portrait;
-    aspect-ratio: 1 / 1;
+    margin-top: -1.5rem;
+    z-index: 1;
+    transform: rotate(1.5deg);
+    box-shadow:
+      0 28px 60px -32px color-mix(in srgb, var(--color-charcoal) 55%, transparent);
   }
 
   .hero-visual__media--tile-one {
     grid-area: tile-one;
     aspect-ratio: 4 / 3;
+    display: none;
   }
 
   .hero-visual__media--tile-two {
     grid-area: tile-two;
     aspect-ratio: 4 / 3;
+    display: none;
   }
 
   .hero-rail {
@@ -640,12 +636,45 @@
     }
   }
 
+  .hero-rail-h {
+    grid-area: rail-h;
+    overflow: hidden;
+    height: clamp(9.5rem, 46vw, 13.5rem);
+  }
+
+  .hero-rail-h__track {
+    display: flex;
+    width: max-content;
+    height: 100%;
+    will-change: transform;
+    animation: hero-rail-h-loop 30s linear infinite;
+  }
+
+  .hero-rail-h__set {
+    display: flex;
+    height: 100%;
+  }
+
+  .hero-rail-h__media {
+    flex: 0 0 auto;
+    width: auto;
+    height: 100%;
+    margin-right: 0.6rem;
+  }
+
+  @keyframes hero-rail-h-loop {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   .hero-visual__media--desktop {
     display: none;
   }
 
   .hero-visual__media--mobile {
     display: block;
+    transform: rotate(-1.5deg);
   }
 
   .hero-visual__note {
@@ -690,9 +719,16 @@
       height: 100%;
     }
 
-    .hero-visual__media--facade,
-    .hero-visual__media--detail,
-    .hero-visual__media--portrait {
+    .hero-visual__media--facade {
+      display: none;
+    }
+
+    .hero-visual__media--tile-one,
+    .hero-visual__media--tile-two {
+      display: block;
+    }
+
+    .hero-rail-h {
       display: none;
     }
 
@@ -1970,6 +2006,10 @@
     }
 
     .hero-rail__track {
+      animation: none;
+    }
+
+    .hero-rail-h__track {
       animation: none;
     }
   }

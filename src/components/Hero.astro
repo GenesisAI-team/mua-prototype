@@ -82,16 +82,6 @@ import { site } from '@/data/site';
             class="hero-visual__media hero-visual__media--facade"
             fluid
           />
-          <Media
-            slot="hero-detalle"
-            class="hero-visual__media hero-visual__media--detail"
-            fluid
-          />
-          <Media
-            slot="hero-interior-01"
-            class="hero-visual__media hero-visual__media--portrait"
-            fluid
-          />
           <div class="hero-rail">
             <div class="hero-rail__track">
               <div class="hero-rail__set">
@@ -130,6 +120,58 @@ import { site } from '@/data/site';
                   slot="hero-interior-01"
                   class="hero-visual__media hero-rail__media hero-rail__media--tall"
                   fluid
+                  eager
+                  reveal={false}
+                />
+              </div>
+            </div>
+          </div>
+          <div class="hero-rail-h">
+            <div class="hero-rail-h__track">
+              <div class="hero-rail-h__set">
+                <Media
+                  slot="hero-interior-02"
+                  class="hero-visual__media hero-rail-h__media"
+                  eager
+                />
+                <Media
+                  slot="hero-interior-01"
+                  class="hero-visual__media hero-rail-h__media"
+                  eager
+                />
+                <Media
+                  slot="hero-interior-03"
+                  class="hero-visual__media hero-rail-h__media"
+                  eager
+                />
+                <Media
+                  slot="hero-detalle"
+                  class="hero-visual__media hero-rail-h__media"
+                  eager
+                />
+              </div>
+              <div class="hero-rail-h__set" aria-hidden="true">
+                <Media
+                  slot="hero-interior-02"
+                  class="hero-visual__media hero-rail-h__media"
+                  eager
+                  reveal={false}
+                />
+                <Media
+                  slot="hero-interior-01"
+                  class="hero-visual__media hero-rail-h__media"
+                  eager
+                  reveal={false}
+                />
+                <Media
+                  slot="hero-interior-03"
+                  class="hero-visual__media hero-rail-h__media"
+                  eager
+                  reveal={false}
+                />
+                <Media
+                  slot="hero-detalle"
+                  class="hero-visual__media hero-rail-h__media"
                   eager
                   reveal={false}
                 />
