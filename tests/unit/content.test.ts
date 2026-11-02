@@ -66,6 +66,13 @@ describe('confirmed content', () => {
     expect(item?.position).toBe('fill');
   });
 
+  it('adds a second staggered image to close the gallery gap', () => {
+    const item = gallery.find((entry) => entry.slot === 'gallery-08');
+
+    expect(item?.caption).toBe('Luz natural');
+    expect(item?.position).toBe('fill-offset');
+  });
+
   it('keeps navigation limited to existing page anchors', () => {
     expect(navigation.map((item) => item.href)).toEqual([
       '#servicios',

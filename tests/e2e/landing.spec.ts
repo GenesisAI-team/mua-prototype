@@ -52,8 +52,8 @@ test.describe('MUA landing', () => {
     await page.goto('/');
 
     const media = page.locator('[data-image-reveal]');
-    expect(await media.count()).toBeGreaterThanOrEqual(19);
-    await expect(page.locator('.media__img')).toHaveCount(18);
+    expect(await media.count()).toBeGreaterThanOrEqual(20);
+    await expect(page.locator('.media__img')).toHaveCount(19);
     await expect(page.locator('.media__label')).toHaveCount(1);
     await expect(page.locator('.media__label')).toHaveText('MAPA PENDIENTE');
     await expect(page.getByText('Imágenes ilustrativas').first()).toBeVisible();
@@ -74,17 +74,21 @@ test.describe('MUA landing', () => {
     ).toHaveCount(7);
   });
 
-  test('fills the gallery gap with the eyebrow service image', async ({
-    page,
-  }) => {
+  test('fills the gallery gap with two staggered images', async ({ page }) => {
     await page.goto('/');
 
     const fill = page.locator('.gallery-item--fill');
+    const offset = page.locator('.gallery-item--fill-offset');
 
     await expect(fill).toHaveCount(1);
     await expect(fill.locator('.media__img')).toHaveAttribute(
       'src',
       '/images/mua-diseno-cejas.webp',
+    );
+    await expect(offset).toHaveCount(1);
+    await expect(offset.locator('.media__img')).toHaveAttribute(
+      'src',
+      '/images/mua-galeria-08.webp',
     );
   });
 
@@ -201,7 +205,7 @@ test.describe('MUA landing', () => {
     await expect(
       page.getByRole('navigation', { name: 'Navegación sin JavaScript' }),
     ).toBeVisible();
-    await expect(page.locator('.media__img')).toHaveCount(18);
+    await expect(page.locator('.media__img')).toHaveCount(19);
     await expect(page.locator('.media__label:visible')).toHaveCount(1);
     await expect(page.locator('.hero-collage .media:visible')).toHaveCount(6);
 

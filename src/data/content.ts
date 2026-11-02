@@ -78,6 +78,11 @@ export const gallery = [
     caption: 'Diseño de cejas',
     position: 'fill',
   },
+  {
+    slot: 'gallery-08',
+    caption: 'Luz natural',
+    position: 'fill-offset',
+  },
 ] as const satisfies readonly {
   readonly slot: ImageSlotId;
   readonly caption: string;
