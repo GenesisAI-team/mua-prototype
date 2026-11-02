@@ -52,8 +52,8 @@ test.describe('MUA landing', () => {
     await page.goto('/');
 
     const media = page.locator('[data-image-reveal]');
-    expect(await media.count()).toBeGreaterThanOrEqual(13);
-    await expect(page.locator('.media__img')).toHaveCount(12);
+    expect(await media.count()).toBeGreaterThanOrEqual(20);
+    await expect(page.locator('.media__img')).toHaveCount(19);
     await expect(page.locator('.media__label')).toHaveCount(1);
     await expect(page.locator('.media__label')).toHaveText('MAPA PENDIENTE');
     await expect(page.getByText('Imágenes ilustrativas').first()).toBeVisible();
@@ -63,6 +63,57 @@ test.describe('MUA landing', () => {
     );
 
     expect(labelled).toBe(true);
+  });
+
+  test('shows the hero as a six-image editorial mosaic', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.locator('.hero-collage .media:visible')).toHaveCount(6);
+    await expect(
+      page.locator('.hero-collage .media__img[src*="mua-hero"]'),
+    ).toHaveCount(7);
+  });
+
+  test('layers the last four gallery images in an overlapping cluster', async ({
+    page,
+    viewport,
+  }) => {
+    await page.goto('/');
+
+    const cluster = page.locator('.gallery-item--cluster');
+
+    await expect(cluster).toHaveCount(4);
+
+    const sources = await cluster
+      .locator('.media__img')
+      .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('src')));
+
+    expect(sources).toEqual([
+      '/images/mua-diseno-cejas.webp',
+      '/images/mua-manicura-francesa.webp',
+      '/images/mua-galeria-08.webp',
+      '/images/mua-galeria-06.webp',
+    ]);
+
+    test.skip(!viewport || viewport.width < 1024);
+
+    await page.locator('.gallery-cluster').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(600);
+
+    const boxes = await cluster.evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const rect = node.getBoundingClientRect();
+        return { x: rect.x, y: rect.y, w: rect.width, h: rect.height };
+      }),
+    );
+    const overlaps = (
+      a: { x: number; y: number; w: number; h: number },
+      b: { x: number; y: number; w: number; h: number },
+    ) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+
+    expect(overlaps(boxes[0]!, boxes[1]!)).toBe(true);
+    expect(overlaps(boxes[0]!, boxes[2]!)).toBe(true);
+    expect(overlaps(boxes[2]!, boxes[3]!)).toBe(true);
   });
 
   test('loads the integrated images after scrolling the page', async ({
@@ -178,8 +229,9 @@ test.describe('MUA landing', () => {
     await expect(
       page.getByRole('navigation', { name: 'Navegación sin JavaScript' }),
     ).toBeVisible();
-    await expect(page.locator('.media__img')).toHaveCount(12);
+    await expect(page.locator('.media__img')).toHaveCount(19);
     await expect(page.locator('.media__label:visible')).toHaveCount(1);
+    await expect(page.locator('.hero-collage .media:visible')).toHaveCount(6);
 
     await context.close();
   });

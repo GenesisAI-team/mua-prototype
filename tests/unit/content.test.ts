@@ -53,6 +53,29 @@ describe('confirmed content', () => {
     }
   });
 
+  it('labels the relocated hero image as a French manicure', () => {
+    const item = gallery.find((entry) => entry.slot === 'gallery-05');
+
+    expect(item?.caption).toBe('Manicura francesa');
+  });
+
+  it('groups the last four gallery images into an overlapping cluster', () => {
+    const clusterItems = gallery.filter((entry) => entry.position === 'cluster');
+
+    expect(clusterItems.map((entry) => entry.slot)).toEqual([
+      'gallery-07',
+      'gallery-05',
+      'gallery-08',
+      'gallery-06',
+    ]);
+    expect(clusterItems.find((entry) => entry.slot === 'gallery-07')?.caption).toBe(
+      'Diseño de cejas',
+    );
+    expect(clusterItems.find((entry) => entry.slot === 'gallery-08')?.caption).toBe(
+      'Luz natural',
+    );
+  });
+
   it('keeps navigation limited to existing page anchors', () => {
     expect(navigation.map((item) => item.href)).toEqual([
       '#servicios',

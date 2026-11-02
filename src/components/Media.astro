@@ -6,6 +6,7 @@ interface Props {
   slot: ImageSlotId;
   class?: string;
   eager?: boolean;
+  fluid?: boolean;
   reveal?: boolean;
   tone?: ImageTone;
 }
@@ -14,17 +15,21 @@ const {
   slot,
   class: className = '',
   eager = false,
+  fluid = false,
   reveal = true,
   tone,
 } = Astro.props;
 
 const image = imageSlots[slot];
 const toneClass = `media--${tone ?? image.tone}`;
+const mediaStyle = fluid
+  ? `object-position: ${image.objectPosition ?? '50% 50%'};`
+  : `aspect-ratio: ${image.ratio}; object-position: ${image.objectPosition ?? '50% 50%'};`;
 ---
 
 <div
   class:list={['media', toneClass, className]}
-  style={`aspect-ratio: ${image.ratio};`}
+  style={mediaStyle}
   role="img"
   aria-label={image.alt}
   data-image-reveal={reveal ? '' : undefined}

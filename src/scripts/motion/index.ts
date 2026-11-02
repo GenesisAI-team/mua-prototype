@@ -113,11 +113,11 @@ function initHero(): void {
     );
   }
 
-  const heroMedia = document.querySelector<HTMLElement>(
+  const heroMedia = gsap.utils.toArray<HTMLElement>(
     '.hero-visual [data-image-inner]',
   );
 
-  if (heroMedia) {
+  if (heroMedia.length) {
     gsap.fromTo(
       heroMedia,
       { clipPath: 'inset(100% 0 0 0)' },
@@ -125,6 +125,7 @@ function initHero(): void {
         clipPath: 'inset(0% 0 0 0)',
         duration: 1.35,
         ease: 'power4.out',
+        stagger: 0.08,
         delay: 0.18,
       },
     );

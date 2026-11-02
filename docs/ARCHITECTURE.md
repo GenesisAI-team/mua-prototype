@@ -4,7 +4,7 @@
 
 Landing estática de una sola página construida con Astro 7 (`output: 'static'`), TypeScript `strictest` y Tailwind CSS 4 mediante `@tailwindcss/vite`. No hay React, CMS, backend, formularios ni reservas.
 
-La base es GEN-9: composición, responsive, navegación, motion y SEO prudente. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas. Los slots de imagen son parte del layout, no un añadido posterior.
+La base es GEN-9: composición, responsive, navegación, motion y SEO prudente. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, reubica el antiguo hero en la galería y mantiene los slots de imagen como parte del layout, no como un añadido posterior.
 
 ## Capas
 
@@ -25,9 +25,9 @@ La sección de servicios destaca dos tarjetas principales —manicura/esmaltado 
 
 ### Imágenes
 
-Los 11 WebP integrados son recreaciones visuales con IA autorizadas, no fotografías reales del local. La UI los presenta como **“Imágenes ilustrativas”** y la documentación registra procedencia, destino, recortes y descartes. No se usan fotos de Instagram ni stock externo. El mapa sigue pendiente para no inventar una ubicación.
+Los 19 WebP integrados son recreaciones visuales con IA autorizadas, no fotografías reales del local. La UI los presenta como **“Imágenes ilustrativas”** y la documentación registra procedencia, destino, recortes y descartes. No se usan fotos de Instagram ni stock externo. El mapa sigue pendiente para no inventar una ubicación.
 
-Cada slot declara ratio, dimensiones reales y, cuando hace falta, `objectPosition`; así el recorte no genera saltos de layout. El hero tiene dos slots (`hero-desktop` y `hero-mobile`) con dirección de arte distinta y carga prioritaria. El resto de imágenes usa lazy loading. `gallery-05` reutiliza el WebP de acrílicas con otro recorte para no duplicar archivos.
+Cada slot declara ratio, dimensiones reales y, cuando hace falta, `objectPosition`; así el recorte no genera saltos de layout. El hero es un mosaico de siete slots: `hero-desktop` y `hero-mobile` comparten el interior principal con recortes 8:9 y 4:5, y `hero-fachada`, `hero-detalle`, `hero-interior-01..03` aportan cinco secundarias. El grid y las áreas se definen en `global.css`; `Media.astro` acepta `fluid` para que el ratio inline no bloquee el encuadre por breakpoint. La imagen principal carga con prioridad y el resto del mosaico usa lazy loading. `gallery-05` usa `mua-manicura-francesa.webp`, el antiguo hero móvil reubicado; el antiguo `mua-hero-desktop.webp` se retiró. Las últimas cuatro piezas (`gallery-07`, `gallery-05`, `gallery-08`, `gallery-06`) forman un cluster posicionado en absoluto dentro de `.gallery-cluster`: cejas 3:2 arriba a la izquierda, francesa 4:5 arriba a la derecha, salón 1:1 abajo a la izquierda y facial 3:4 abajo a la derecha. Los solapes y las sombras aportan profundidad; el ratio del contenedor (10:9) garantiza que no haya saltos. En tablet el cluster pasa a una rejilla 2×2 con filas igualadas y en móvil se apila con ratios naturales.
 
 ### Motion
 
@@ -35,6 +35,7 @@ Cada slot declara ratio, dimensiones reales y, cuando hace falta, `objectPositio
 - Lenis solo con `prefers-reduced-motion: no-preference`; se sincroniza con `lenis.on('scroll', ScrollTrigger.update)` y el ticker de GSAP.
 - Las anclas se interceptan solo cuando Lenis está activo. Sin Lenis, el navegador usa el scroll nativo y `scroll-margin-top`.
 - Las animaciones se limitan a `transform`, `opacity` y `clip-path`.
+- El hero revela el título por líneas y enmascara las seis imágenes visibles del mosaico con un stagger corto; las imágenes del hero se excluyen de `initImageReveals` para no duplicar triggers.
 - `ScrollTrigger.batch` agrupa los reveals para evitar decenas de triggers simultáneos.
 - El menú móvil detiene y reanuda Lenis mediante el evento `mua:menu`.
 - Si el módulo de motion falla, un timeout inline añade `motion-failed` y muestra todo el contenido.
