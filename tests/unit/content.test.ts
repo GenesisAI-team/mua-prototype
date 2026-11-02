@@ -59,18 +59,21 @@ describe('confirmed content', () => {
     expect(item?.caption).toBe('Manicura francesa');
   });
 
-  it('adds the eyebrow service as the gallery fill image', () => {
-    const item = gallery.find((entry) => entry.slot === 'gallery-07');
+  it('groups the last four gallery images into an overlapping cluster', () => {
+    const clusterItems = gallery.filter((entry) => entry.position === 'cluster');
 
-    expect(item?.caption).toBe('Diseño de cejas');
-    expect(item?.position).toBe('fill');
-  });
-
-  it('adds a second staggered image to close the gallery gap', () => {
-    const item = gallery.find((entry) => entry.slot === 'gallery-08');
-
-    expect(item?.caption).toBe('Luz natural');
-    expect(item?.position).toBe('fill-offset');
+    expect(clusterItems.map((entry) => entry.slot)).toEqual([
+      'gallery-07',
+      'gallery-05',
+      'gallery-08',
+      'gallery-06',
+    ]);
+    expect(clusterItems.find((entry) => entry.slot === 'gallery-07')?.caption).toBe(
+      'Diseño de cejas',
+    );
+    expect(clusterItems.find((entry) => entry.slot === 'gallery-08')?.caption).toBe(
+      'Luz natural',
+    );
   });
 
   it('keeps navigation limited to existing page anchors', () => {

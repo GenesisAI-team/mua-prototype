@@ -74,22 +74,46 @@ test.describe('MUA landing', () => {
     ).toHaveCount(7);
   });
 
-  test('fills the gallery gap with two staggered images', async ({ page }) => {
+  test('layers the last four gallery images in an overlapping cluster', async ({
+    page,
+    viewport,
+  }) => {
     await page.goto('/');
 
-    const fill = page.locator('.gallery-item--fill');
-    const offset = page.locator('.gallery-item--fill-offset');
+    const cluster = page.locator('.gallery-item--cluster');
 
-    await expect(fill).toHaveCount(1);
-    await expect(fill.locator('.media__img')).toHaveAttribute(
-      'src',
+    await expect(cluster).toHaveCount(4);
+
+    const sources = await cluster
+      .locator('.media__img')
+      .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('src')));
+
+    expect(sources).toEqual([
       '/images/mua-diseno-cejas.webp',
-    );
-    await expect(offset).toHaveCount(1);
-    await expect(offset.locator('.media__img')).toHaveAttribute(
-      'src',
+      '/images/mua-manicura-francesa.webp',
       '/images/mua-galeria-08.webp',
+      '/images/mua-galeria-06.webp',
+    ]);
+
+    test.skip(!viewport || viewport.width < 1024);
+
+    await page.locator('.gallery-cluster').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(600);
+
+    const boxes = await cluster.evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const rect = node.getBoundingClientRect();
+        return { x: rect.x, y: rect.y, w: rect.width, h: rect.height };
+      }),
     );
+    const overlaps = (
+      a: { x: number; y: number; w: number; h: number },
+      b: { x: number; y: number; w: number; h: number },
+    ) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+
+    expect(overlaps(boxes[0]!, boxes[1]!)).toBe(true);
+    expect(overlaps(boxes[0]!, boxes[2]!)).toBe(true);
+    expect(overlaps(boxes[2]!, boxes[3]!)).toBe(true);
   });
 
   test('loads the integrated images after scrolling the page', async ({

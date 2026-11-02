@@ -25,8 +25,8 @@ Los 19 WebP integrados suman aproximadamente **1,82 MB**. La imagen principal de
 | `gallery-04` | Galería | 3 / 2 | 1448 × 1086 | `mua-galeria-04.webp` | `50% 50%` | Fachada con rótulo Muā. |
 | `gallery-05` | Galería | 4 / 5 | 941 × 1672 | `mua-manicura-francesa.webp` | `50% 50%` | Antiguo hero móvil reubicado como manicura francesa. |
 | `gallery-06` | Galería | 3 / 4 | 1200 × 900 | `mua-galeria-06.webp` | `50% 45%` | Tratamiento facial con mascarilla. |
-| `gallery-07` | Galería | 3 / 2 | 1200 × 800 | `mua-diseno-cejas.webp` | `42% 50%` | Diseño de cejas; primera imagen del hueco izquierdo. |
-| `gallery-08` | Galería | 16 / 9 | 1600 × 900 | `mua-galeria-08.webp` | `50% 50%` | Vista del salón; segunda imagen escalonada del hueco izquierdo. |
+| `gallery-07` | Galería | 3 / 2 | 1200 × 800 | `mua-diseno-cejas.webp` | `42% 50%` | Diseño de cejas; capa superior izquierda del cluster. |
+| `gallery-08` | Galería | 1 / 1 | 1600 × 900 | `mua-galeria-08.webp` | `50% 50%` | Vista del salón; capa inferior izquierda del cluster. |
 | `studio-salon` | El espacio | 3 / 2 | 1600 × 900 | `mua-estudio-salon.webp` | `50% 50%` | Interior general con sillones verde oliva. |
 | `studio-detail` | El espacio | 1 / 1 | 1536 × 1024 | `mua-estudio-detalle.webp` | `50% 50%` | Recepción y materiales. |
 | `map` | Contacto | 16 / 9 | 1200 × 675 | `mua-mapa.webp` | — | **Pendiente**. No hay asset verificable. |
@@ -46,7 +46,7 @@ Las rutas de la tabla son relativas a `C:\Users\jeffe\Pictures\MUA-ESTETICA\webp
 | `pedicura/pedicura_spa-pies_toallas-vela.webp` | `pedicura/` | `gallery-02` | Integrada | Comunica mejor el cuidado spa que el plano de proceso. |
 | `pedicura/pedicura_pies-esmalte_proceso.webp` | `pedicura/` | — | Descartada | Menos atmosférica y más próxima a un detalle técnico. |
 | `cejas-facial/cejas-facial_tratamiento-facial_mascarilla.webp` | `cejas-facial/` | `gallery-06` | Integrada | Aporta el servicio facial confirmado y una textura distinta a la galería. |
-| `cejas-facial/cejas-facial_diseno-cejas_pinzas.webp` | `cejas-facial/` | `gallery-07` | Integrada | Añade el servicio de cejas como primera imagen del hueco izquierdo, sin recorte vertical forzado. |
+| `cejas-facial/cejas-facial_diseno-cejas_pinzas.webp` | `cejas-facial/` | `gallery-07` | Integrada | Añade el servicio de cejas como capa superior del cluster, sin recorte vertical forzado. |
 | `cta/cta_mua-detalle-marca_herramientas.webp` | `cta/` | `gallery-03` | Integrada | Más contraste y detalle de marca que la variante de toalla. |
 | `cta/cta_mua-toalla-logo_ambiente.webp` | `cta/` | — | Descartada | Menos definición de marca y encaje visual más blando. |
 | `interior/interior_salon-verde-oliva_vista-general.webp` | `interior/` | `studio-salon` | Integrada | Vista general más completa del ambiente. |
@@ -54,7 +54,7 @@ Las rutas de la tabla son relativas a `C:\Users\jeffe\Pictures\MUA-ESTETICA\webp
 | `interior/interior_salon-simetrico_estanterias.webp` | `interior/` | `hero-interior-03` | Integrada | Tile secundario del mosaico; aporta simetría y estanterías. |
 | `interior/interior_salon-luz-natural_escaparate.webp` | `interior/` | `hero-desktop` y `hero-mobile` | Integrada | Interior principal del hero, recortado en 8:9 y 4:5. |
 | `interior/interior_puestos-manicura_sillas-verdes.webp` | `interior/` | `hero-interior-02` | Integrada | Perspectiva de los puestos de manicura para el mosaico. |
-| `interior/interior_salon-ventanal_ambiente.webp` | `interior/` | `gallery-08` | Integrada | Segunda imagen escalonada del hueco izquierdo; aporta amplitud y luz natural. |
+| `interior/interior_salon-ventanal_ambiente.webp` | `interior/` | `gallery-08` | Integrada | Capa inferior del cluster; aporta amplitud y luz natural. |
 | `interior/interior_sillas-verdes_primer-plano.webp` | `interior/` | `hero-interior-01` | Integrada | Detalle textil vertical para una de las secundarias. |
 | `interior/interior_mesa-trabajo_bokeh.webp` | `interior/` | `hero-detalle` | Integrada | Detalle de mesa y herramientas para el mosaico. |
 | `interior/interior_suelo-madera_perspectiva.webp` | `interior/` | — | Descartada | Ángulo de suelo menos útil para presentar el local. |
@@ -80,7 +80,7 @@ Documentación relacionada: [10 prompts base](ASSET_PROMPTS.md) y [auditoría re
 - `hero-desktop` y `hero-mobile` cargan con `eager`/`fetchpriority="high"`; las cinco secundarias del mosaico y el resto de la página usan `lazy` con `decoding="async"`.
 - El mosaico del hero usa siete WebP: un interior principal con recortes desktop/móvil y cinco secundarias. `Media.astro` acepta `fluid` para omitir el ratio inline y dejar que el grid CSS decida el encuadre por breakpoint.
 - `gallery-05` usa `mua-manicura-francesa.webp`, el antiguo hero móvil reubicado. El antiguo `mua-hero-desktop.webp` se retiró.
-- `gallery-07` y `gallery-08` usan `mua-diseno-cejas.webp` y `mua-galeria-08.webp` como dos imágenes escalonadas en el hueco izquierdo. En desktop ocupan filas 3 y 4 con anchos y offsets distintos; en móvil recuperan sus ratios 3:2 y 4:3 en una columna.
+- Las últimas cuatro piezas forman un cluster superpuesto en desktop: `gallery-07` (cejas, 3:2), `gallery-05` (francesa, 4:5), `gallery-08` (salón, 1:1) y `gallery-06` (facial, 3:4). Los solapes y las sombras crean profundidad; en tablet pasan a una rejilla 2×2 con filas igualadas y en móvil se apilan con sus ratios naturales.
 - El mapa no se sustituye por una captura inventada: mantiene el placeholder hasta tener una ubicación verificable.
 
 ## Sustitución futura por fotografías reales

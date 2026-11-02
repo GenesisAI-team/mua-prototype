@@ -245,7 +245,7 @@ export const imageSlots = {
     section: 'Galería',
     label: 'IMAGEN',
     alt: 'Recreación visual del salón con ventanal, sillones verde oliva y luz natural.',
-    ratio: '16 / 9',
+    ratio: '1 / 1',
     width: 1600,
     height: 900,
     futureFile: 'mua-galeria-08.webp',

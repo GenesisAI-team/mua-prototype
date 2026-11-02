@@ -75,7 +75,7 @@ La estrategia de **cuatro variantes independientes por solicitud** resultó úti
 
 El **31 de octubre de 2026** el usuario confirmó la entrega completa del lote: 23 WebP y 23 JPG equivalentes en `C:\Users\jeffe\Pictures\MUA-ESTETICA`, con `_manifest.csv` y todos los WebP verificables. Autorizó su uso como **recreaciones visuales con IA**, no como fotografías reales, y aprobó expresamente la fachada con el rótulo **“Muā”**.
 
-Se seleccionaron **19 WebP** para cubrir **20 slots** tras ampliar el hero con un mosaico de interior y cinco secundarias, y añadir `gallery-07` (diseño de cejas) y `gallery-08` (vista del salón) como dos imágenes escalonadas para equilibrar la galería. El antiguo hero móvil se reubicó en `gallery-05` como `mua-manicura-francesa.webp`; el antiguo hero desktop se retiró. El mapa no se sustituye porque no hay una ubicación verificable. La procedencia, los recortes, las alternativas descartadas y el estado de cada slot están en [IMAGES.md](IMAGES.md).
+Se seleccionaron **19 WebP** para cubrir **20 slots** tras ampliar el hero con un mosaico de interior y cinco secundarias, y añadir `gallery-07` (diseño de cejas) y `gallery-08` (vista del salón) al cluster superpuesto que cierra la galería. El antiguo hero móvil se reubicó en `gallery-05` como `mua-manicura-francesa.webp`; el antiguo hero desktop se retiró. El mapa no se sustituye porque no hay una ubicación verificable. La procedencia, los recortes, las alternativas descartadas y el estado de cada slot están en [IMAGES.md](IMAGES.md).
 
 ## Estado de implementación
 

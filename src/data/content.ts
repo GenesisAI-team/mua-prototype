@@ -64,24 +64,24 @@ export const gallery = [
     position: 'landscape',
   },
   {
-    slot: 'gallery-05',
-    caption: 'Manicura francesa',
-    position: 'tall',
-  },
-  {
-    slot: 'gallery-06',
-    caption: 'Tratamiento facial',
-    position: 'portrait',
-  },
-  {
     slot: 'gallery-07',
     caption: 'Diseño de cejas',
-    position: 'fill',
+    position: 'cluster',
+  },
+  {
+    slot: 'gallery-05',
+    caption: 'Manicura francesa',
+    position: 'cluster',
   },
   {
     slot: 'gallery-08',
     caption: 'Luz natural',
-    position: 'fill-offset',
+    position: 'cluster',
+  },
+  {
+    slot: 'gallery-06',
+    caption: 'Tratamiento facial',
+    position: 'cluster',
   },
 ] as const satisfies readonly {
   readonly slot: ImageSlotId;

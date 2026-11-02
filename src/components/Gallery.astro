@@ -1,6 +1,9 @@
 ---
 import Media from '@/components/Media.astro';
 import { gallery } from '@/data/content';
+
+const standardGallery = gallery.filter((item) => item.position !== 'cluster');
+const clusterGallery = gallery.filter((item) => item.position === 'cluster');
 ---
 
 <section id="galeria" class="section gallery" aria-labelledby="gallery-title">
@@ -22,10 +25,14 @@ import { gallery } from '@/data/content';
     </div>
 
     <div class="gallery-grid">
-      {gallery.map((item) => (
-        <div class:list={['gallery-item', `gallery-item--${item.position}`]} data-reveal>
+      {standardGallery.map((item) => (
+        <div
+          class:list={['gallery-item', `gallery-item--${item.position}`]}
+          data-slot={item.slot}
+          data-reveal
+        >
           <figure class="gallery-figure">
-            <Media slot={item.slot} fluid={item.position.startsWith('fill')} />
+            <Media slot={item.slot} />
             <figcaption class="gallery-caption">
               <span>{item.caption}</span>
               <span>Ilustrativa</span>
@@ -33,6 +40,20 @@ import { gallery } from '@/data/content';
           </figure>
         </div>
       ))}
+
+      <div class="gallery-cluster">
+        {clusterGallery.map((item) => (
+          <div class="gallery-item gallery-item--cluster" data-slot={item.slot} data-reveal>
+            <figure class="gallery-figure">
+              <Media slot={item.slot} fluid />
+              <figcaption class="gallery-caption">
+                <span>{item.caption}</span>
+                <span>Ilustrativa</span>
+              </figcaption>
+            </figure>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>
