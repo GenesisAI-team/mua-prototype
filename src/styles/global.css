@@ -1415,12 +1415,6 @@
     }
   }
 
-  .studio-note {
-    margin-top: 1.25rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid color-mix(in srgb, var(--color-charcoal) 13%, transparent);
-  }
-
   .trust-grid {
     display: grid;
     gap: 2.5rem;
