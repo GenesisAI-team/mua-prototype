@@ -43,8 +43,10 @@ test.describe('MUA landing', () => {
     await expect(
       actions.getByRole('link', { name: 'Ver servicios', exact: true }),
     ).toHaveAttribute('href', '#servicios');
-    await expect(page.locator('.hero-note .provisional-tag')).toHaveText(
-      'Datos de contacto provisionales',
+    await expect(page.locator('.hero-note .provisional-tag')).toHaveCount(0);
+    await expect(page.locator('.provisional-tag')).toHaveCount(1);
+    await expect(page.locator('.provisional-tag')).toHaveText(
+      'Imágenes ilustrativas',
     );
   });
 
