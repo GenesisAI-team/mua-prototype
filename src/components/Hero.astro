@@ -92,6 +92,50 @@ import { site } from '@/data/site';
             class="hero-visual__media hero-visual__media--portrait"
             fluid
           />
+          <div class="hero-rail">
+            <div class="hero-rail__track">
+              <div class="hero-rail__set">
+                <Media
+                  slot="hero-fachada"
+                  class="hero-visual__media hero-rail__media"
+                  fluid
+                />
+                <Media
+                  slot="hero-detalle"
+                  class="hero-visual__media hero-rail__media"
+                  fluid
+                />
+                <Media
+                  slot="hero-interior-01"
+                  class="hero-visual__media hero-rail__media hero-rail__media--tall"
+                  fluid
+                />
+              </div>
+              <div class="hero-rail__set" aria-hidden="true">
+                <Media
+                  slot="hero-fachada"
+                  class="hero-visual__media hero-rail__media"
+                  fluid
+                  eager
+                  reveal={false}
+                />
+                <Media
+                  slot="hero-detalle"
+                  class="hero-visual__media hero-rail__media"
+                  fluid
+                  eager
+                  reveal={false}
+                />
+                <Media
+                  slot="hero-interior-01"
+                  class="hero-visual__media hero-rail__media hero-rail__media--tall"
+                  fluid
+                  eager
+                  reveal={false}
+                />
+              </div>
+            </div>
+          </div>
           <Media
             slot="hero-interior-02"
             class="hero-visual__media hero-visual__media--tile-one"
