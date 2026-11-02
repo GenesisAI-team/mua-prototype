@@ -30,6 +30,24 @@ test.describe('MUA landing', () => {
       .toMatch(/^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
   });
 
+  test('opens the phone dialer from the hero primary CTA', async ({ page }) => {
+    await page.goto('/');
+
+    const actions = page.locator('.hero-actions');
+    const call = actions.getByRole('link', {
+      name: 'Consultar disponibilidad',
+      exact: true,
+    });
+
+    await expect(call).toHaveAttribute('href', 'tel:+34747496624');
+    await expect(
+      actions.getByRole('link', { name: 'Ver servicios', exact: true }),
+    ).toHaveAttribute('href', '#servicios');
+    await expect(page.locator('.hero-note .provisional-tag')).toHaveText(
+      'Datos de contacto provisionales',
+    );
+  });
+
   test('uses direct WhatsApp links without a booking form', async ({ page }) => {
     await page.goto('/');
 

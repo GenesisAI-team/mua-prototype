@@ -44,7 +44,7 @@ Cada slot declara ratio, dimensiones reales y, cuando hace falta, `objectPositio
 
 ### Navegación
 
-No hay router ni navegación entre páginas. La página es estática y las anclas resuelven el recorrido. Por eso no se destruyen triggers al navegar; no existe una transición SPA que deje listeners huérfanos.
+No hay router ni navegación entre páginas. La página es estática y las anclas resuelven el recorrido. Por eso no se destruyen triggers al navegar; no existe una transición SPA que deje listeners huérfanos. La CTA principal del hero usa `site.phone.href` (`tel:`) para abrir el marcador; «Ver servicios» sigue siendo un ancla interna.
 
 ## Accesibilidad
 
