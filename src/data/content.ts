@@ -73,6 +73,11 @@ export const gallery = [
     caption: 'Tratamiento facial',
     position: 'portrait',
   },
+  {
+    slot: 'gallery-07',
+    caption: 'Diseño de cejas',
+    position: 'fill',
+  },
 ] as const satisfies readonly {
   readonly slot: ImageSlotId;
   readonly caption: string;

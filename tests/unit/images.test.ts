@@ -19,6 +19,7 @@ const expectedSlots = [
   'gallery-04',
   'gallery-05',
   'gallery-06',
+  'gallery-07',
   'studio-salon',
   'studio-detail',
   'map',
@@ -40,6 +41,7 @@ const expectedSources = {
   'gallery-04': '/images/mua-galeria-04.webp',
   'gallery-05': '/images/mua-manicura-francesa.webp',
   'gallery-06': '/images/mua-galeria-06.webp',
+  'gallery-07': '/images/mua-diseno-cejas.webp',
   'studio-salon': '/images/mua-estudio-salon.webp',
   'studio-detail': '/images/mua-estudio-detalle.webp',
 };

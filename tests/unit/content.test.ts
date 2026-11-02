@@ -59,6 +59,13 @@ describe('confirmed content', () => {
     expect(item?.caption).toBe('Manicura francesa');
   });
 
+  it('adds the eyebrow service as the gallery fill image', () => {
+    const item = gallery.find((entry) => entry.slot === 'gallery-07');
+
+    expect(item?.caption).toBe('Diseño de cejas');
+    expect(item?.position).toBe('fill');
+  });
+
   it('keeps navigation limited to existing page anchors', () => {
     expect(navigation.map((item) => item.href)).toEqual([
       '#servicios',

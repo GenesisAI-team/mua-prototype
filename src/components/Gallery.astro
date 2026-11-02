@@ -25,7 +25,7 @@ import { gallery } from '@/data/content';
       {gallery.map((item) => (
         <div class:list={['gallery-item', `gallery-item--${item.position}`]} data-reveal>
           <figure class="gallery-figure">
-            <Media slot={item.slot} />
+            <Media slot={item.slot} fluid={item.position === 'fill'} />
             <figcaption class="gallery-caption">
               <span>{item.caption}</span>
               <span>Ilustrativa</span>

@@ -1,10 +1,10 @@
 # Inventario de imágenes
 
-**Estado (2 de noviembre de 2026):** 17 archivos WebP integrados en 18 slots. El slot `map` sigue pendiente. Todas las imágenes son **recreaciones visuales con IA** autorizadas por el usuario; no son fotografías reales del local ni trabajos verificados. La UI las presenta como **“Imágenes ilustrativas”**.
+**Estado (2 de noviembre de 2026):** 18 archivos WebP integrados en 19 slots. El slot `map` sigue pendiente. Todas las imágenes son **recreaciones visuales con IA** autorizadas por el usuario; no son fotografías reales del local ni trabajos verificados. La UI las presenta como **“Imágenes ilustrativas”**.
 
 **Origen:** `C:\Users\jeffe\Pictures\MUA-ESTETICA` (`webp/`, `jpg/` y `_manifest.csv`). Se copiaron solo los WebP a `public/images/`; los JPG quedan como respaldo local. El lote completo tiene 23 WebP y 23 JPG equivalentes, todos verificados con `ffprobe` y `estado: ok` en el manifiesto.
 
-Los 17 WebP integrados suman aproximadamente **1,61 MB**. La imagen principal del hero carga de forma prioritaria; el resto del mosaico y de la página usa lazy loading.
+Los 18 WebP integrados suman aproximadamente **1,66 MB**. La imagen principal del hero carga de forma prioritaria; el resto del mosaico y de la página usa lazy loading.
 
 ## Slots de la landing
 
@@ -25,6 +25,7 @@ Los 17 WebP integrados suman aproximadamente **1,61 MB**. La imagen principal de
 | `gallery-04` | Galería | 3 / 2 | 1448 × 1086 | `mua-galeria-04.webp` | `50% 50%` | Fachada con rótulo Muā. |
 | `gallery-05` | Galería | 4 / 5 | 941 × 1672 | `mua-manicura-francesa.webp` | `50% 50%` | Antiguo hero móvil reubicado como manicura francesa. |
 | `gallery-06` | Galería | 3 / 4 | 1200 × 900 | `mua-galeria-06.webp` | `50% 45%` | Tratamiento facial con mascarilla. |
+| `gallery-07` | Galería | 3 / 4 | 900 × 1200 | `mua-diseno-cejas.webp` | `50% 38%` | Diseño de cejas; rellena el hueco izquierdo de la galería. |
 | `studio-salon` | El espacio | 3 / 2 | 1600 × 900 | `mua-estudio-salon.webp` | `50% 50%` | Interior general con sillones verde oliva. |
 | `studio-detail` | El espacio | 1 / 1 | 1536 × 1024 | `mua-estudio-detalle.webp` | `50% 50%` | Recepción y materiales. |
 | `map` | Contacto | 16 / 9 | 1200 × 675 | `mua-mapa.webp` | — | **Pendiente**. No hay asset verificable. |
@@ -44,7 +45,7 @@ Las rutas de la tabla son relativas a `C:\Users\jeffe\Pictures\MUA-ESTETICA\webp
 | `pedicura/pedicura_spa-pies_toallas-vela.webp` | `pedicura/` | `gallery-02` | Integrada | Comunica mejor el cuidado spa que el plano de proceso. |
 | `pedicura/pedicura_pies-esmalte_proceso.webp` | `pedicura/` | — | Descartada | Menos atmosférica y más próxima a un detalle técnico. |
 | `cejas-facial/cejas-facial_tratamiento-facial_mascarilla.webp` | `cejas-facial/` | `gallery-06` | Integrada | Aporta el servicio facial confirmado y una textura distinta a la galería. |
-| `cejas-facial/cejas-facial_diseno-cejas_pinzas.webp` | `cejas-facial/` | — | Descartada | El facial cubre mejor el slot; cejas queda mencionado en la línea de servicios. |
+| `cejas-facial/cejas-facial_diseno-cejas_pinzas.webp` | `cejas-facial/` | `gallery-07` | Integrada | Añade el servicio de cejas y rellena el hueco izquierdo de la galería. |
 | `cta/cta_mua-detalle-marca_herramientas.webp` | `cta/` | `gallery-03` | Integrada | Más contraste y detalle de marca que la variante de toalla. |
 | `cta/cta_mua-toalla-logo_ambiente.webp` | `cta/` | — | Descartada | Menos definición de marca y encaje visual más blando. |
 | `interior/interior_salon-verde-oliva_vista-general.webp` | `interior/` | `studio-salon` | Integrada | Vista general más completa del ambiente. |
@@ -78,6 +79,7 @@ Documentación relacionada: [10 prompts base](ASSET_PROMPTS.md) y [auditoría re
 - `hero-desktop` y `hero-mobile` cargan con `eager`/`fetchpriority="high"`; las cinco secundarias del mosaico y el resto de la página usan `lazy` con `decoding="async"`.
 - El mosaico del hero usa siete WebP: un interior principal con recortes desktop/móvil y cinco secundarias. `Media.astro` acepta `fluid` para omitir el ratio inline y dejar que el grid CSS decida el encuadre por breakpoint.
 - `gallery-05` usa `mua-manicura-francesa.webp`, el antiguo hero móvil reubicado. El antiguo `mua-hero-desktop.webp` se retiró.
+- `gallery-07` usa `mua-diseno-cejas.webp` en el hueco izquierdo de la galería; en desktop ocupa dos filas y en móvil recupera su ratio 3:4.
 - El mapa no se sustituye por una captura inventada: mantiene el placeholder hasta tener una ubicación verificable.
 
 ## Sustitución futura por fotografías reales

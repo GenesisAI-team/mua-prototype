@@ -66,7 +66,7 @@ docs/
 
 ## Imágenes
 
-Cada slot está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones reales, alt, tono, `src` y `objectPosition`. Los 17 WebP integrados viven en `public/images/`. El hero usa un mosaico de siete archivos (interior principal desktop/móvil y cinco secundarias); `gallery-05` es el antiguo hero móvil reubicado como `mua-manicura-francesa.webp`.
+Cada slot está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones reales, alt, tono, `src` y `objectPosition`. Los 18 WebP integrados viven en `public/images/`. El hero usa un mosaico de siete archivos (interior principal desktop/móvil y cinco secundarias); `gallery-05` es el antiguo hero móvil reubicado como `mua-manicura-francesa.webp` y `gallery-07` añade el diseño de cejas para cerrar el hueco izquierdo de la galería.
 
 Para sustituir una recreación por una fotografía real autorizada:
 
