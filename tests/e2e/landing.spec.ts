@@ -123,7 +123,7 @@ test.describe('MUA landing', () => {
 
     const media = page.locator('[data-image-reveal]');
     expect(await media.count()).toBeGreaterThanOrEqual(23);
-    await expect(page.locator('.media__img')).toHaveCount(22);
+    await expect(page.locator('.media__img')).toHaveCount(28);
     await expect(page.locator('.media__label')).toHaveCount(1);
     await expect(page.locator('.media__label')).toHaveText('MAPA PENDIENTE');
     await expect(page.getByText('Imágenes ilustrativas').first()).toBeVisible();
@@ -135,13 +135,20 @@ test.describe('MUA landing', () => {
     expect(labelled).toBe(true);
   });
 
-  test('shows the hero as a six-image editorial mosaic', async ({ page }) => {
+  test('shows the hero as an editorial mosaic with an image rail', async ({
+    page,
+    viewport,
+  }) => {
     await page.goto('/');
 
-    await expect(page.locator('.hero-collage .media:visible')).toHaveCount(6);
+    const expectedMedia = viewport && viewport.width >= 900 ? 9 : 6;
+
+    await expect(
+      page.locator('.hero-collage .media:visible'),
+    ).toHaveCount(expectedMedia);
     await expect(
       page.locator('.hero-collage .media__img[src*="mua-hero"]'),
-    ).toHaveCount(7);
+    ).toHaveCount(13);
   });
 
   test('layers the last four gallery images in an overlapping cluster', async ({
@@ -201,7 +208,18 @@ test.describe('MUA landing', () => {
     const imageCount = await images.count();
 
     for (let index = 0; index < imageCount; index += 1) {
-      await images.nth(index).scrollIntoViewIfNeeded();
+      const image = images.nth(index);
+      const inRail = await image.evaluate((node) =>
+        Boolean(node.closest('.hero-rail')),
+      );
+
+      // The rail loops forever, so Playwright would wait for a stability that
+      // never comes; those images sit in the initial viewport and load already.
+      if (inRail) {
+        continue;
+      }
+
+      await image.scrollIntoViewIfNeeded();
       await page.waitForTimeout(100);
     }
 
@@ -299,9 +317,9 @@ test.describe('MUA landing', () => {
     await expect(
       page.getByRole('navigation', { name: 'Navegación sin JavaScript' }),
     ).toBeVisible();
-    await expect(page.locator('.media__img')).toHaveCount(22);
+    await expect(page.locator('.media__img')).toHaveCount(28);
     await expect(page.locator('.media__label:visible')).toHaveCount(1);
-    await expect(page.locator('.hero-collage .media:visible')).toHaveCount(6);
+    await expect(page.locator('.hero-collage .media:visible')).toHaveCount(9);
 
     await context.close();
   });
