@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
-  additionalServices,
   gallery,
   navigation,
+  priceGroups,
   principles,
   services,
   visitSteps,
@@ -11,36 +11,71 @@ import { imageSlots } from '../../src/data/images';
 import { site } from '../../src/data/site';
 
 describe('confirmed content', () => {
-  it('keeps the two core services as the main service cards', () => {
+  it('keeps the five confirmed services as the main service cards', () => {
     expect(services.map((service) => service.id)).toEqual([
       'semipermanente',
       'acrilicas',
+      'pedicura',
+      'cejas',
+      'facial',
     ]);
     expect(services.map((service) => service.title)).toEqual([
       'Manicura y esmaltado semipermanente',
       'Uñas acrílicas y extensiones',
-    ]);
-  });
-
-  it('lists the additional services confirmed by the user', () => {
-    expect(additionalServices).toEqual([
       'Pedicura',
       'Diseño de cejas',
       'Tratamiento facial',
     ]);
   });
 
-  it('does not include prices, bookings or clinical promises', () => {
+  it('keeps the confirmed price list grouped by category', () => {
+    expect(priceGroups.map((group) => group.label)).toEqual([
+      'Manicura',
+      'Pedicura',
+      'Otros servicios',
+    ]);
+    expect(priceGroups.map((group) => group.items.length)).toEqual([8, 3, 3]);
+    expect(priceGroups.flatMap((group) => group.items.map((item) => item.price))).toEqual([
+      '15 €',
+      '17 €',
+      '20 €',
+      '25 €',
+      '28 €',
+      '40 €',
+      '28 €',
+      '3 €',
+      '20 €',
+      '25 €',
+      '30 €',
+      '7/10 €',
+      '55 €',
+      '65 €',
+    ]);
+  });
+
+  it('does not duplicate price rows and only declares the facial durations', () => {
+    const items = priceGroups.flatMap((group) => group.items);
+
+    expect(new Set(items.map((item) => item.id)).size).toBe(items.length);
+    expect(items.filter((item) => item.duration).map((item) => item.duration)).toEqual([
+      '45 min',
+      '1 h',
+    ]);
+    expect(JSON.stringify(priceGroups)).not.toMatch(/IVA|protocolo/i);
+  });
+
+  it('keeps prices out of the service cards and avoids clinical promises', () => {
+    const cards = JSON.stringify(services);
     const copy = JSON.stringify({
       services,
-      additionalServices,
+      priceGroups,
       principles,
       visitSteps,
       gallery,
     });
 
-    expect(copy).not.toMatch(/\b\d+\s?€\b/);
-    expect(copy).not.toMatch(/precio|tarifa|reserva online|resultado garantizado/i);
+    expect(cards).not.toMatch(/€|precio|tarifa/i);
+    expect(copy).not.toMatch(/resultado garantizado|promesa clínica|protocolo/i);
   });
 
   it('points every content image to a registered slot', () => {

@@ -1,39 +1,38 @@
 ---
 import Media from '@/components/Media.astro';
-import { additionalServices, services } from '@/data/content';
+import { priceGroups, services } from '@/data/content';
+import { buildWhatsAppUrl } from '@/lib/whatsapp';
 
-const additionalServicesCopy = additionalServices
-  .join(', ')
-  .toLowerCase()
-  .replace(/, ([^,]+)$/, ' y $1');
+const priceMeta = (item: { variant?: string; duration?: string }) =>
+  [item.variant, item.duration].filter(Boolean).join(' · ');
+
+const priceMessage = (item: { title: string; variant?: string }) =>
+  `Hola, quiero reservar ${item.title}${item.variant ? ` (${item.variant})` : ''}.`;
 ---
 
 <section id="servicios" class="section services" aria-labelledby="services-title">
   <div class="page-shell services-grid">
     <div class="services-intro" data-services-intro>
       <span class="section-label">Servicios</span>
-      <h2 id="services-title" class="services-title">Dos formas de cuidar tus manos.</h2>
+      <h2 id="services-title" class="services-title">Manos, pies y mirada.</h2>
       <p class="body-lg services-copy">
-        Manicura y esmaltado semipermanente para un acabado cuidado; uñas acrílicas
-        y extensiones para trabajar forma y longitud.
-      </p>
-      <p class="body-sm" style="margin-top: 1rem; max-width: 31rem;">
-        También ofrecemos {additionalServicesCopy}. Consúltanos por teléfono o
-        Instagram para confirmar disponibilidad.
+        Manicura, pedicura, cejas y facial. Te orientamos antes de la cita para
+        elegir el acabado y el tiempo que necesitas.
       </p>
       <div class="services-progress" aria-hidden="true">
         <span class="services-progress__fill" data-service-progress></span>
       </div>
     </div>
 
-    <div class="services-list">
+    <div class="services-list" data-services-list>
       {services.map((service, index) => (
         <article class="service-card" data-service-card data-reveal>
           <Media
             slot={service.imageSlot}
+            fluid
             class:list={[
               'service-card__media',
-              service.id === 'acrilicas' ? 'service-card__media--portrait' : '',
+              service.portrait ? 'service-card__media--portrait' : '',
             ]}
           />
           <div class="service-card__body">
@@ -43,17 +42,85 @@ const additionalServicesCopy = additionalServices
             <h3 class="service-card__title">{service.title}</h3>
             <p class="body-lg service-card__description">{service.description}</p>
             <p class="service-card__detail">{service.detail}</p>
-            <a class="text-link" href="#contacto">Consultar disponibilidad</a>
+            <a
+              class="text-link"
+              href={buildWhatsAppUrl(`Hola, quiero reservar ${service.title}.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Reservar por WhatsApp
+            </a>
           </div>
         </article>
       ))}
     </div>
+
+    <section class="services-pricing" aria-labelledby="pricing-title">
+      <div class="pricing-head">
+        <span class="section-label">Tarifas</span>
+        <h3 id="pricing-title" class="pricing-title">Lista de precios</h3>
+        <p class="body-sm pricing-copy">
+          Tarifas facilitadas por MUA. La reserva se abre directamente en WhatsApp
+          y confirmamos el detalle antes de la cita.
+        </p>
+        <span class="provisional-tag">WhatsApp provisional pendiente de confirmar</span>
+      </div>
+
+      <div class="pricing-groups">
+        {priceGroups.map((group) => (
+          <section
+            class="pricing-group"
+            aria-labelledby={`pricing-${group.id}`}
+            data-reveal
+          >
+            <div class="pricing-group__head">
+              <h4 id={`pricing-${group.id}`} class="pricing-group__title">
+                {group.label}
+              </h4>
+            </div>
+            <ul class="pricing-list">
+              {group.items.map((item) => (
+                <li class="pricing-row">
+                  <div class="pricing-row__info">
+                    <span class="pricing-row__title">{item.title}</span>
+                    {(item.note || item.variant || item.duration) && (
+                      <span class="pricing-row__meta">
+                        {[item.note, priceMeta(item)].filter(Boolean).join(' · ')}
+                      </span>
+                    )}
+                  </div>
+                  <span class="pricing-row__price">{item.price}</span>
+                  <a
+                    class="button pricing-row__cta"
+                    href={buildWhatsAppUrl(priceMessage(item))}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Reservar ${item.title}${
+                      item.variant ? ` (${item.variant})` : ''
+                    } por WhatsApp`}
+                  >
+                    Reservar
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </section>
   </div>
 
   <div class="page-shell services-cta">
     <p class="body-lg" style="max-width: 28rem;">
       ¿No sabes qué elegir? Cuéntanoslo y te orientamos.
     </p>
-    <a class="button button--ghost" href="#contacto">Hablar con MUA</a>
+    <a
+      class="button button--ghost"
+      href={buildWhatsAppUrl('Hola, quiero información sobre los servicios de MUA.')}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Hablar por WhatsApp
+    </a>
   </div>
 </section>

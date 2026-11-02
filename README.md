@@ -2,11 +2,11 @@
 
 Propuesta **no oficial** de la nueva web de MUA Estética (Pamplona). Astro 7 estático, TypeScript estricto, Tailwind CSS 4 y una capa de motion con GSAP + ScrollTrigger + Lenis.
 
-La base es GEN-9: plantilla visual, responsive, navegación, SEO prudente y experiencia de scroll. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas, sin rehacer el motion. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, y reubica el antiguo hero en la galería.
+La base es GEN-9: plantilla visual, responsive, navegación, SEO prudente y experiencia de scroll. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas, sin rehacer el motion. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, y reubica el antiguo hero en la galería. GEN-22 completa los cinco servicios, añade el tarifario y conecta las CTAs con WhatsApp.
 
-- Issues: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets) · [GEN-12](https://linear.app/genesisnavarra/issue/GEN-12/mua-estetica-integrar-imagenes-finales-y-documentar-prompts-y) · [GEN-21](https://linear.app/genesisnavarra/issue/GEN-21/mua-estetica-ampliar-el-hero-con-mosaico-de-interior-y-)
+- Issues: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets) · [GEN-12](https://linear.app/genesisnavarra/issue/GEN-12/mua-estetica-integrar-imagenes-finales-y-documentar-prompts-y) · [GEN-21](https://linear.app/genesisnavarra/issue/GEN-21/mua-estetica-ampliar-el-hero-con-mosaico-de-interior-y-) · [GEN-22](https://linear.app/genesisnavarra/issue/GEN-22/mua-estetica-completar-servicios-tarifario-y-reserva-por-whatsapp)
 - Repo: `GenesisAI-team/mua-prototype`
-- Rama: `feat/GEN-21-hero-interior-collage` (stacked sobre `feat/GEN-12-mua-final-assets`)
+- Rama: `feat/GEN-22-servicios-tarifario-whatsapp` (desde `main`)
 
 ## Requisitos
 
@@ -39,6 +39,7 @@ npm run test:e2e
 src/
   components/       Header, hero, secciones y Media reutilizable
   data/             site.ts, content.ts, images.ts
+  lib/              Helpers, incluido el constructor de enlaces de WhatsApp
   layouts/          BaseLayout con SEO, aviso de preview y scripts
   pages/            index.astro
   scripts/
@@ -58,15 +59,17 @@ docs/
 
 ## Estado del contenido
 
-- Servicios: **manicura / esmaltado semipermanente**, **uñas acrílicas / extensiones**, **pedicura**, **diseño de cejas** y **tratamiento facial**. La landing destaca los dos primeros y menciona el resto.
-- Teléfono `747 49 66 24`, dirección en Calle de Artica, horario y reseñas están marcados como **provisionales** en la UI y en `src/data/site.ts`.
-- No hay precios, profesionales, historia, testimonios, productos ni sistema de reservas.
+- Servicios: **manicura / esmaltado semipermanente**, **uñas acrílicas / extensiones**, **pedicura**, **diseño de cejas** y **tratamiento facial**, cada uno con su tarjeta foto + texto.
+- La sección incluye un tarifario agrupado en Manicura, Pedicura y Otros servicios con las tarifas facilitadas por el negocio. Las tarjetas no muestran precios.
+- Las CTAs de reserva abren directamente el WhatsApp `747 49 66 24` con el servicio prerrellenado. No hay formularios ni reservas automáticas.
+- Teléfono, WhatsApp, dirección en Calle de Artica, horario y reseñas están marcados como **provisionales** en la UI y en `src/data/site.ts`.
+- No hay profesionales, historia, testimonios, productos ni promesas clínicas.
 - El sitio lleva el aviso visible de propuesta no oficial, `noindex, nofollow` y `robots.txt` con `Disallow: /`.
 - Las imágenes son recreaciones visuales con IA, presentadas como **“Imágenes ilustrativas”**; no son fotografías reales ni trabajos verificados. El mapa sigue pendiente.
 
 ## Imágenes
 
-Cada slot está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones reales, alt, tono, `src` y `objectPosition`. Los 19 WebP integrados viven en `public/images/`. El hero usa un mosaico de siete archivos (interior principal desktop/móvil y cinco secundarias); `gallery-05` es el antiguo hero móvil reubicado como `mua-manicura-francesa.webp`; las últimas cuatro piezas (`gallery-07`, `gallery-05`, `gallery-08`, `gallery-06`) forman un cluster superpuesto con profundidad en la galería.
+Cada slot está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones reales, alt, tono, `src` y `objectPosition`. Los 19 WebP integrados viven en `public/images/`. El hero usa un mosaico de siete archivos (interior principal desktop/móvil y cinco secundarias); `gallery-05` es el antiguo hero móvil reubicado como `mua-manicura-francesa.webp`; las últimas cuatro piezas (`gallery-07`, `gallery-05`, `gallery-08`, `gallery-06`) forman un cluster superpuesto con profundidad en la galería. Las tarjetas de pedicura, cejas y facial reutilizan `gallery-02`, `gallery-07` y `gallery-06` como imágenes ilustrativas, sin archivos nuevos.
 
 Para sustituir una recreación por una fotografía real autorizada:
 
@@ -81,7 +84,7 @@ Inventario, procedencia y descartes en [docs/IMAGES.md](docs/IMAGES.md).
 - Lenis gestiona el scroll suave y se sincroniza con el ticker de GSAP y `ScrollTrigger.update`; no se usa en táctil ni con `prefers-reduced-motion`.
 - Hero: reveal tipográfico por líneas + máscara escalonada de las seis imágenes visibles del mosaico.
 - Secciones: reveals una sola vez mediante `ScrollTrigger.batch`.
-- Servicios: un único pin corto de la introducción en desktop, con barra de progreso scrub.
+- Servicios: un único pin de la introducción en desktop, con barra de progreso scrub; acompaña las cinco tarjetas y se libera antes del tarifario.
 - Galería: hover/tap sutil, sin scroll horizontal forzado.
 - Fallbacks: scroll nativo sin JS, contenido visible con motion reducido y timeout `motion-failed` si el módulo no arranca.
 
