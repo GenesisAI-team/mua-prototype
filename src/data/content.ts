@@ -65,7 +65,7 @@ export const gallery = [
   },
   {
     slot: 'gallery-05',
-    caption: 'Detalle en burdeos',
+    caption: 'Manicura francesa',
     position: 'tall',
   },
   {

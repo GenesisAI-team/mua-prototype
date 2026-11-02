@@ -65,16 +65,46 @@ import { site } from '@/data/site';
       <div class="hero-visual" data-hero-visual>
         <span class="hero-side-note" aria-hidden="true">MUA · Estética · Pamplona</span>
         <div class="hero-frame" aria-hidden="true"></div>
-        <Media
-          slot="hero-desktop"
-          class="hero-visual__media hero-visual__media--desktop"
-          eager
-        />
-        <Media
-          slot="hero-mobile"
-          class="hero-visual__media hero-visual__media--mobile"
-          eager
-        />
+        <div class="hero-collage">
+          <Media
+            slot="hero-desktop"
+            class="hero-visual__media hero-visual__media--main hero-visual__media--desktop"
+            fluid
+            eager
+          />
+          <Media
+            slot="hero-mobile"
+            class="hero-visual__media hero-visual__media--main hero-visual__media--mobile"
+            fluid
+            eager
+          />
+          <Media
+            slot="hero-fachada"
+            class="hero-visual__media hero-visual__media--facade"
+            fluid
+          />
+          <Media
+            slot="hero-detalle"
+            class="hero-visual__media hero-visual__media--detail"
+            fluid
+          />
+          <Media
+            slot="hero-interior-01"
+            class="hero-visual__media hero-visual__media--portrait"
+            fluid
+          />
+          <Media
+            slot="hero-interior-02"
+            class="hero-visual__media hero-visual__media--tile-one"
+            fluid
+          />
+          <Media
+            slot="hero-interior-03"
+            class="hero-visual__media hero-visual__media--tile-two"
+            fluid
+          />
+        </div>
+        <p class="hero-visual__note">Imágenes ilustrativas</p>
       </div>
     </div>
   </div>

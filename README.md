@@ -2,11 +2,11 @@
 
 Propuesta **no oficial** de la nueva web de MUA Estética (Pamplona). Astro 7 estático, TypeScript estricto, Tailwind CSS 4 y una capa de motion con GSAP + ScrollTrigger + Lenis.
 
-La base es GEN-9: plantilla visual, responsive, navegación, SEO prudente y experiencia de scroll. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas, sin rehacer el motion.
+La base es GEN-9: plantilla visual, responsive, navegación, SEO prudente y experiencia de scroll. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas, sin rehacer el motion. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, y reubica el antiguo hero en la galería.
 
-- Issues: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets) · [GEN-12](https://linear.app/genesisnavarra/issue/GEN-12/mua-estetica-integrar-imagenes-finales-y-documentar-prompts-y)
+- Issues: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets) · [GEN-12](https://linear.app/genesisnavarra/issue/GEN-12/mua-estetica-integrar-imagenes-finales-y-documentar-prompts-y) · [GEN-21](https://linear.app/genesisnavarra/issue/GEN-21/mua-estetica-ampliar-el-hero-con-mosaico-de-interior-y-)
 - Repo: `GenesisAI-team/mua-prototype`
-- Rama: `feat/GEN-12-mua-final-assets`
+- Rama: `feat/GEN-21-hero-interior-collage` (stacked sobre `feat/GEN-12-mua-final-assets`)
 
 ## Requisitos
 
@@ -66,7 +66,7 @@ docs/
 
 ## Imágenes
 
-Cada slot está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones reales, alt, tono, `src` y `objectPosition`. Los 11 WebP integrados viven en `public/images/`; `gallery-05` reutiliza el archivo de acrílicas con otro recorte.
+Cada slot está registrado en `src/data/images.ts` con id, sección, ratio, dimensiones reales, alt, tono, `src` y `objectPosition`. Los 17 WebP integrados viven en `public/images/`. El hero usa un mosaico de siete archivos (interior principal desktop/móvil y cinco secundarias); `gallery-05` es el antiguo hero móvil reubicado como `mua-manicura-francesa.webp`.
 
 Para sustituir una recreación por una fotografía real autorizada:
 
@@ -79,7 +79,7 @@ Inventario, procedencia y descartes en [docs/IMAGES.md](docs/IMAGES.md).
 ## Motion
 
 - Lenis gestiona el scroll suave y se sincroniza con el ticker de GSAP y `ScrollTrigger.update`; no se usa en táctil ni con `prefers-reduced-motion`.
-- Hero: reveal tipográfico por líneas + máscara de imagen.
+- Hero: reveal tipográfico por líneas + máscara escalonada de las seis imágenes visibles del mosaico.
 - Secciones: reveals una sola vez mediante `ScrollTrigger.batch`.
 - Servicios: un único pin corto de la introducción en desktop, con barra de progreso scrub.
 - Galería: hover/tap sutil, sin scroll horizontal forzado.

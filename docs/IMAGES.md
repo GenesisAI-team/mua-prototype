@@ -1,24 +1,29 @@
 # Inventario de imágenes
 
-**Estado (31 de octubre de 2026):** 11 archivos WebP integrados en 12 slots. El slot `map` sigue pendiente. Todas las imágenes son **recreaciones visuales con IA** autorizadas por el usuario; no son fotografías reales del local ni trabajos verificados. La UI las presenta como **“Imágenes ilustrativas”**.
+**Estado (2 de noviembre de 2026):** 17 archivos WebP integrados en 18 slots. El slot `map` sigue pendiente. Todas las imágenes son **recreaciones visuales con IA** autorizadas por el usuario; no son fotografías reales del local ni trabajos verificados. La UI las presenta como **“Imágenes ilustrativas”**.
 
 **Origen:** `C:\Users\jeffe\Pictures\MUA-ESTETICA` (`webp/`, `jpg/` y `_manifest.csv`). Se copiaron solo los WebP a `public/images/`; los JPG quedan como respaldo local. El lote completo tiene 23 WebP y 23 JPG equivalentes, todos verificados con `ffprobe` y `estado: ok` en el manifiesto.
 
-Los 11 WebP integrados suman aproximadamente **1,08 MB**. El hero carga de forma prioritaria; el resto es lazy.
+Los 17 WebP integrados suman aproximadamente **1,61 MB**. La imagen principal del hero carga de forma prioritaria; el resto del mosaico y de la página usa lazy loading.
 
 ## Slots de la landing
 
 | ID | Sección | Ratio | Dimensiones fuente | Archivo en `public/images/` | Encuadre | Uso |
 | --- | --- | --- | --- | --- | --- | --- |
-| `hero-desktop` | Hero desktop | 4 / 5 | 1672 × 941 | `mua-hero-desktop.webp` | `object-position: 82% 50%` | Manos y manicura, recorte editorial. |
-| `hero-mobile` | Hero móvil | 4 / 5 | 941 × 1672 | `mua-hero-mobile.webp` | `50% 50%` | Versión vertical del hero. |
+| `hero-desktop` | Hero desktop | 8 / 9 | 1200 × 1350 | `mua-hero-desktop.webp` | `50% 50%` | Interior principal del mosaico, recorte editorial. |
+| `hero-mobile` | Hero móvil | 4 / 5 | 900 × 1125 | `mua-hero-mobile.webp` | `50% 50%` | Recorte vertical del interior principal. |
+| `hero-fachada` | Hero | 4 / 3 | 1200 × 900 | `mua-hero-fachada.webp` | `50% 50%` | Fachada con rótulo, escaparate y entrada. |
+| `hero-detalle` | Hero | 4 / 3 | 900 × 675 | `mua-hero-detalle.webp` | `50% 50%` | Detalle de mesa de trabajo y herramientas. |
+| `hero-interior-01` | Hero | 2 / 3 | 800 × 1200 | `mua-hero-interior-01.webp` | `50% 45%` | Sillones verde oliva en primer plano. |
+| `hero-interior-02` | Hero | 4 / 3 | 900 × 675 | `mua-hero-interior-02.webp` | `50% 50%` | Puestos de manicura con luz natural. |
+| `hero-interior-03` | Hero | 4 / 3 | 900 × 675 | `mua-hero-interior-03.webp` | `50% 50%` | Vista simétrica con estanterías. |
 | `service-semi` | Servicios | 4 / 3 | 1200 × 1200 | `mua-semipermanente.webp` | `50% 45%` | Manicura francesa con flores y burdeos. |
 | `service-acrylic` | Servicios | 4 / 5 | 1200 × 1200 | `mua-acrilicas.webp` | `50% 42%` | Acrílicas almendra con diseño floral. |
 | `gallery-01` | Galería | 4 / 5 | 1200 × 800 | `mua-galeria-01.webp` | `55% 50%` | Manicurista trabajando con una clienta. |
 | `gallery-02` | Galería | 3 / 4 | 1200 × 800 | `mua-galeria-02.webp` | `50% 50%` | Pedicura spa con toallas y vela. |
 | `gallery-03` | Galería | 1 / 1 | 1200 × 800 | `mua-galeria-03.webp` | `50% 50%` | Herramientas y detalle de marca. |
 | `gallery-04` | Galería | 3 / 2 | 1448 × 1086 | `mua-galeria-04.webp` | `50% 50%` | Fachada con rótulo Muā. |
-| `gallery-05` | Galería | 4 / 5 | 1200 × 1200 | `mua-acrilicas.webp` | `50% 35%` | Reutiliza el archivo de acrílicas con otro recorte. |
+| `gallery-05` | Galería | 4 / 5 | 941 × 1672 | `mua-manicura-francesa.webp` | `50% 50%` | Antiguo hero móvil reubicado como manicura francesa. |
 | `gallery-06` | Galería | 3 / 4 | 1200 × 900 | `mua-galeria-06.webp` | `50% 45%` | Tratamiento facial con mascarilla. |
 | `studio-salon` | El espacio | 3 / 2 | 1600 × 900 | `mua-estudio-salon.webp` | `50% 50%` | Interior general con sillones verde oliva. |
 | `studio-detail` | El espacio | 1 / 1 | 1536 × 1024 | `mua-estudio-detalle.webp` | `50% 50%` | Recepción y materiales. |
@@ -30,12 +35,12 @@ Las rutas de la tabla son relativas a `C:\Users\jeffe\Pictures\MUA-ESTETICA\webp
 
 | Archivo | Carpeta | Destino / uso | Estado | Criterio |
 | --- | --- | --- | --- | --- |
-| `hero/hero_francesa-manos_salon-luminoso.webp` | `hero/` | `hero-desktop` | Integrada | Mejor equilibrio entre manos, manicura y contexto del salón. |
-| `hero-movil/hero-movil_francesa-manos_vertical.webp` | `hero-movil/` | `hero-mobile` | Integrada | Vertical real, sin recorte artificial del hero. |
+| `hero/hero_francesa-manos_salon-luminoso.webp` | `hero/` | — | Retirada | El hero pasa a un mosaico de interior; el archivo anterior no se publica. |
+| `hero-movil/hero-movil_francesa-manos_vertical.webp` | `hero-movil/` | `gallery-05` | Integrada (reubicada) | Antiguo hero móvil; pasa a la galería como manicura francesa. |
 | `servicios/servicios_manicurista-cliente_puesto-trabajo.webp` | `servicios/` | `gallery-01` | Integrada | Escena de proceso con contexto humano y de espacio. |
 | `servicios/servicios_manicura-proceso_tecnica.webp` | `servicios/` | — | Descartada | Plano de proceso menos claro y más repetitivo que la escena elegida. |
 | `manicura/manicura_francesa-floral_nude.webp` | `manicura/` | `service-semi` | Integrada | Detalle limpio de francesa con flores; buena lectura en tarjeta. |
-| `acrilicas/acrilicas_almendra-borgona_diseno-largo.webp` | `acrilicas/` | `service-acrylic` y `gallery-05` | Integrada | Forma y diseño más reconocibles; se reutiliza con otro recorte. |
+| `acrilicas/acrilicas_almendra-borgona_diseno-largo.webp` | `acrilicas/` | `service-acrylic` | Integrada | Forma y diseño más reconocibles para la tarjeta de servicio. |
 | `pedicura/pedicura_spa-pies_toallas-vela.webp` | `pedicura/` | `gallery-02` | Integrada | Comunica mejor el cuidado spa que el plano de proceso. |
 | `pedicura/pedicura_pies-esmalte_proceso.webp` | `pedicura/` | — | Descartada | Menos atmosférica y más próxima a un detalle técnico. |
 | `cejas-facial/cejas-facial_tratamiento-facial_mascarilla.webp` | `cejas-facial/` | `gallery-06` | Integrada | Aporta el servicio facial confirmado y una textura distinta a la galería. |
@@ -44,15 +49,15 @@ Las rutas de la tabla son relativas a `C:\Users\jeffe\Pictures\MUA-ESTETICA\webp
 | `cta/cta_mua-toalla-logo_ambiente.webp` | `cta/` | — | Descartada | Menos definición de marca y encaje visual más blando. |
 | `interior/interior_salon-verde-oliva_vista-general.webp` | `interior/` | `studio-salon` | Integrada | Vista general más completa del ambiente. |
 | `interior/interior_recepcion_ambiente-calido.webp` | `interior/` | `studio-detail` | Integrada | Detalle de recepción que complementa la vista general. |
-| `interior/interior_salon-simetrico_estanterias.webp` | `interior/` | — | Descartada | Variante de interior; se evita duplicar ambientes. |
-| `interior/interior_salon-luz-natural_escaparate.webp` | `interior/` | — | Descartada | Variante de interior próxima a la elegida. |
-| `interior/interior_puestos-manicura_sillas-verdes.webp` | `interior/` | — | Descartada | Variante de interior; no aporta un ángulo suficientemente distinto. |
+| `interior/interior_salon-simetrico_estanterias.webp` | `interior/` | `hero-interior-03` | Integrada | Tile secundario del mosaico; aporta simetría y estanterías. |
+| `interior/interior_salon-luz-natural_escaparate.webp` | `interior/` | `hero-desktop` y `hero-mobile` | Integrada | Interior principal del hero, recortado en 8:9 y 4:5. |
+| `interior/interior_puestos-manicura_sillas-verdes.webp` | `interior/` | `hero-interior-02` | Integrada | Perspectiva de los puestos de manicura para el mosaico. |
 | `interior/interior_salon-ventanal_ambiente.webp` | `interior/` | — | Descartada | Variante de interior próxima a la vista general. |
-| `interior/interior_sillas-verdes_primer-plano.webp` | `interior/` | — | Descartada | Demasiado primer plano para el slot de espacio. |
-| `interior/interior_mesa-trabajo_bokeh.webp` | `interior/` | — | Descartada | Detalle de mesa menos informativo que la recepción. |
+| `interior/interior_sillas-verdes_primer-plano.webp` | `interior/` | `hero-interior-01` | Integrada | Detalle textil vertical para una de las secundarias. |
+| `interior/interior_mesa-trabajo_bokeh.webp` | `interior/` | `hero-detalle` | Integrada | Detalle de mesa y herramientas para el mosaico. |
 | `interior/interior_suelo-madera_perspectiva.webp` | `interior/` | — | Descartada | Ángulo de suelo menos útil para presentar el local. |
 | `fachada/fachada_mua-escaparate_entrada.webp` | `fachada/` | `gallery-04` | Integrada | Fachada con escaparate y rótulo Muā, la más reconocible. |
-| `fachada/fachada_mua-entrada_escalera.webp` | `fachada/` | — | Descartada | La entrada con escalera es menos clara como imagen de marca. |
+| `fachada/fachada_mua-entrada_escalera.webp` | `fachada/` | `hero-fachada` | Integrada | Entrada con escalera como secundaria del mosaico del hero. |
 
 ## Procedencia y permisos
 
@@ -70,8 +75,9 @@ Documentación relacionada: [10 prompts base](ASSET_PROMPTS.md) y [auditoría re
 - Solo se copiaron los WebP; no se duplicaron los JPG en `public/`.
 - Cada slot conserva su ratio de layout y declara `width`/`height` reales para evitar saltos.
 - `Media.astro` aplica `object-position` por slot y usa `object-fit: cover`.
-- `hero-desktop` y `hero-mobile` cargan con `eager`/`fetchpriority="high"`; el resto es `lazy` con `decoding="async"`.
-- `gallery-05` reutiliza `mua-acrilicas.webp`; no se creó un archivo duplicado.
+- `hero-desktop` y `hero-mobile` cargan con `eager`/`fetchpriority="high"`; las cinco secundarias del mosaico y el resto de la página usan `lazy` con `decoding="async"`.
+- El mosaico del hero usa siete WebP: un interior principal con recortes desktop/móvil y cinco secundarias. `Media.astro` acepta `fluid` para omitir el ratio inline y dejar que el grid CSS decida el encuadre por breakpoint.
+- `gallery-05` usa `mua-manicura-francesa.webp`, el antiguo hero móvil reubicado. El antiguo `mua-hero-desktop.webp` se retiró.
 - El mapa no se sustituye por una captura inventada: mantiene el placeholder hasta tener una ubicación verificable.
 
 ## Sustitución futura por fotografías reales

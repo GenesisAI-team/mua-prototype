@@ -53,6 +53,12 @@ describe('confirmed content', () => {
     }
   });
 
+  it('labels the relocated hero image as a French manicure', () => {
+    const item = gallery.find((entry) => entry.slot === 'gallery-05');
+
+    expect(item?.caption).toBe('Manicura francesa');
+  });
+
   it('keeps navigation limited to existing page anchors', () => {
     expect(navigation.map((item) => item.href)).toEqual([
       '#servicios',
