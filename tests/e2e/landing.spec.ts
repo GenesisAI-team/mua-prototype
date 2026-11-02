@@ -30,12 +30,11 @@ test.describe('MUA landing', () => {
       .toMatch(/^(none|matrix\(1, 0, 0, 1, 0, 0\))$/);
   });
 
-  test('exposes the phone and Instagram without inventing a booking flow', async ({
-    page,
-  }) => {
+  test('uses direct WhatsApp links without a booking form', async ({ page }) => {
     await page.goto('/');
 
     const contact = page.locator('#contacto');
+    const whatsappLinks = page.locator('a[href^="https://wa.me/34747496624?text="]');
 
     await expect(
       contact.locator('a[href="tel:+34747496624"]').first(),
@@ -43,7 +42,58 @@ test.describe('MUA landing', () => {
     await expect(
       contact.locator('a[href*="instagram.com/muanails.es"]').first(),
     ).toHaveAttribute('href', /instagram\.com\/muanails\.es/);
+    await expect(whatsappLinks).toHaveCount(20);
     await expect(page.locator('form')).toHaveCount(0);
+  });
+
+  test('shows the five services and the full price list', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.locator('.service-card')).toHaveCount(5);
+    await expect(page.locator('.service-card__title')).toHaveText([
+      'Manicura y esmaltado semipermanente',
+      'Uñas acrílicas y extensiones',
+      'Pedicura',
+      'Diseño de cejas',
+      'Tratamiento facial',
+    ]);
+
+    await expect(page.locator('.pricing-group__title')).toHaveText([
+      'Manicura',
+      'Pedicura',
+      'Otros servicios',
+    ]);
+    await expect(page.locator('.pricing-row')).toHaveCount(14);
+    await expect(page.locator('.pricing-row__price')).toHaveText([
+      '15 €',
+      '17 €',
+      '20 €',
+      '25 €',
+      '28 €',
+      '40 €',
+      '28 €',
+      '3 €',
+      '20 €',
+      '25 €',
+      '30 €',
+      '7/10 €',
+      '55 €',
+      '65 €',
+    ]);
+
+    const reservations = page.locator('.pricing-row__cta');
+    await expect(reservations).toHaveCount(14);
+
+    const messages = await reservations.evaluateAll((nodes) =>
+      nodes.map((node) => {
+        const url = new URL((node as HTMLAnchorElement).href);
+        return url.searchParams.get('text');
+      }),
+    );
+
+    expect(messages.every((message) => message?.startsWith('Hola, quiero reservar'))).toBe(
+      true,
+    );
   });
 
   test('integrates the selected images and keeps the map pending', async ({
@@ -52,8 +102,8 @@ test.describe('MUA landing', () => {
     await page.goto('/');
 
     const media = page.locator('[data-image-reveal]');
-    expect(await media.count()).toBeGreaterThanOrEqual(20);
-    await expect(page.locator('.media__img')).toHaveCount(19);
+    expect(await media.count()).toBeGreaterThanOrEqual(23);
+    await expect(page.locator('.media__img')).toHaveCount(22);
     await expect(page.locator('.media__label')).toHaveCount(1);
     await expect(page.locator('.media__label')).toHaveText('MAPA PENDIENTE');
     await expect(page.getByText('Imágenes ilustrativas').first()).toBeVisible();
@@ -193,7 +243,7 @@ test.describe('MUA landing', () => {
 
     await menu.getByRole('link', { name: /Servicios/ }).click();
     await expect(menu).not.toBeVisible();
-    await expect(page.locator('#servicios')).toBeInViewport({ ratio: 0.15 });
+    await expect(page.locator('#servicios')).toBeInViewport({ ratio: 0.05 });
   });
 
   test('reduced motion shows content without hidden transforms', async ({
@@ -229,7 +279,7 @@ test.describe('MUA landing', () => {
     await expect(
       page.getByRole('navigation', { name: 'Navegación sin JavaScript' }),
     ).toBeVisible();
-    await expect(page.locator('.media__img')).toHaveCount(19);
+    await expect(page.locator('.media__img')).toHaveCount(22);
     await expect(page.locator('.media__label:visible')).toHaveCount(1);
     await expect(page.locator('.hero-collage .media:visible')).toHaveCount(6);
 

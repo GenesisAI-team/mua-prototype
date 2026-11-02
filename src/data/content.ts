@@ -13,6 +13,7 @@ export interface Service {
   readonly description: string;
   readonly detail: string;
   readonly imageSlot: ImageSlotId;
+  readonly portrait?: boolean;
 }
 
 export const services: readonly Service[] = [
@@ -20,27 +21,151 @@ export const services: readonly Service[] = [
     id: 'semipermanente',
     title: 'Manicura y esmaltado semipermanente',
     description:
-      'Un acabado cuidado para el día a día, con atención a la forma, la cutícula y el detalle final.',
+      'Manicura rusa, tradicional o semipermanente, con atención a la forma, la cutícula y el detalle final.',
     detail:
-      'Si buscas un color limpio y una manicura bien terminada, esta es la opción de partida. Confirmamos contigo el acabado antes de empezar.',
+      'También podemos reforzar la uña con calcio cuando está débil o necesita más longitud. Confirmamos contigo el acabado antes de empezar.',
     imageSlot: 'service-semi',
   },
   {
     id: 'acrilicas',
     title: 'Uñas acrílicas y extensiones',
     description:
-      'Construcción y extensión a medida para conseguir la forma y el largo que tienes en mente.',
+      'Alargamiento, relleno y reparación para conseguir la forma y el largo que tienes en mente.',
     detail:
-      'Trabajamos la estructura de la uña y el acabado que mejor encaja contigo. Consulta disponibilidad y detalles por teléfono o Instagram.',
+      'Trabajamos la estructura de la uña y el acabado que mejor encaja contigo. Si se rompe una uña, valoramos el arreglo antes de la cita.',
     imageSlot: 'service-acrylic',
+    portrait: true,
+  },
+  {
+    id: 'pedicura',
+    title: 'Pedicura',
+    description:
+      'Limpieza completa de pies, esmaltado tradicional o semipermanente para un acabado cuidado.',
+    detail:
+      'Adaptamos el tratamiento al estado de la piel y de la uña. Confirmamos contigo el acabado y el tiempo necesario antes de empezar.',
+    imageSlot: 'gallery-02',
+  },
+  {
+    id: 'cejas',
+    title: 'Diseño de cejas',
+    description:
+      'Depilación y diseño para definir la forma de la ceja con un acabado natural.',
+    detail:
+      'Revisamos contigo la forma antes de trabajar la ceja. Consulta disponibilidad y detalles por WhatsApp.',
+    imageSlot: 'gallery-07',
+  },
+  {
+    id: 'facial',
+    title: 'Tratamiento facial',
+    description:
+      'Limpieza facial completa en versión básica o completa, según el tiempo y el cuidado que busques.',
+    detail:
+      'La limpieza facial se adapta a cada piel. Confirmamos contigo la opción y la duración antes de la cita.',
+    imageSlot: 'gallery-06',
+    portrait: true,
   },
 ];
 
-export const additionalServices = [
-  'Pedicura',
-  'Diseño de cejas',
-  'Tratamiento facial',
-] as const;
+export interface PriceItem {
+  readonly id: string;
+  readonly title: string;
+  readonly note?: string;
+  readonly variant?: string;
+  readonly duration?: string;
+  readonly price: string;
+}
+
+export interface PriceGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly items: readonly PriceItem[];
+}
+
+export const priceGroups: readonly PriceGroup[] = [
+  {
+    id: 'manicura',
+    label: 'Manicura',
+    items: [
+      { id: 'limpieza', title: 'Limpieza (manicura rusa)', price: '15 €' },
+      {
+        id: 'tradicional',
+        title: 'Manicura tradicional',
+        note: 'Incluye manicura rusa',
+        price: '17 €',
+      },
+      {
+        id: 'semipermanente',
+        title: 'Manicura semipermanente',
+        price: '20 €',
+      },
+      {
+        id: 'refuerzo-calcio',
+        title: 'Manicura con refuerzo de calcio',
+        note: 'Base para reforzar uñas débiles o largas',
+        price: '25 €',
+      },
+      {
+        id: 'refuerzo-largas',
+        title: 'Manicura con refuerzo en uñas largas',
+        price: '28 €',
+      },
+      { id: 'alargamiento', title: 'Alargamiento', price: '40 €' },
+      { id: 'relleno', title: 'Relleno', price: '28 €' },
+      {
+        id: 'una-rota',
+        title: 'Alargar 1 uña rota',
+        price: '3 €',
+      },
+    ],
+  },
+  {
+    id: 'pedicura',
+    label: 'Pedicura',
+    items: [
+      {
+        id: 'limpieza-pies',
+        title: 'Limpieza de pies completa',
+        note: 'SPA',
+        price: '20 €',
+      },
+      {
+        id: 'esmaltado-tradicional',
+        title: 'Pedicura con esmaltado tradicional',
+        price: '25 €',
+      },
+      {
+        id: 'esmaltado-semipermanente',
+        title: 'Pedicura con esmaltado semipermanente',
+        price: '30 €',
+      },
+    ],
+  },
+  {
+    id: 'otros',
+    label: 'Otros servicios',
+    items: [
+      {
+        id: 'depilacion-cejas',
+        title: 'Depilación de cejas',
+        price: '7/10 €',
+      },
+      {
+        id: 'facial-basica',
+        title: 'Limpieza facial completa',
+        variant: 'Básica',
+        duration: '45 min',
+        price: '55 €',
+      },
+      {
+        id: 'facial-completa',
+        title: 'Limpieza facial completa',
+        variant: 'Completa',
+        duration: '1 h',
+        price: '65 €',
+      },
+    ],
+  },
+];
 
 export const gallery = [
   {

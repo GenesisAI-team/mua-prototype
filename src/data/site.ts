@@ -14,6 +14,11 @@ export interface AddressField extends ProvisionalField {
   readonly numberPending: boolean;
 }
 
+export interface WhatsAppField extends ProvisionalField {
+  readonly number: string;
+  readonly url: string;
+}
+
 export const site = {
   name: 'MUA Estética',
   shortName: 'MUA',
@@ -30,6 +35,12 @@ export const site = {
     provisional: true,
     note: 'Teléfono provisional pendiente de confirmar.',
   } satisfies PhoneField,
+  whatsapp: {
+    number: '34747496624',
+    url: 'https://wa.me/34747496624',
+    provisional: true,
+    note: 'WhatsApp provisional pendiente de confirmar.',
+  } satisfies WhatsAppField,
   address: {
     line1: 'Calle de Artica',
     line2: 'Pamplona, Navarra',

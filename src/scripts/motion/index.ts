@@ -236,15 +236,16 @@ function initServicesPin(): void {
   media.add('(min-width: 1024px)', () => {
     const section = document.querySelector<HTMLElement>('#servicios');
     const intro = document.querySelector<HTMLElement>('[data-services-intro]');
+    const list = section?.querySelector<HTMLElement>('[data-services-list]');
 
-    if (!section || !intro) {
+    if (!section || !intro || !list) {
       return;
     }
 
     const pin = ScrollTrigger.create({
       trigger: intro,
       start: 'top 96px',
-      endTrigger: section,
+      endTrigger: list,
       end: 'bottom 72%',
       pin: true,
       pinSpacing: true,
@@ -258,8 +259,9 @@ function initServicesPin(): void {
   });
 
   const fill = document.querySelector<HTMLElement>('[data-service-progress]');
+  const list = document.querySelector<HTMLElement>('[data-services-list]');
 
-  if (fill) {
+  if (fill && list) {
     gsap.fromTo(
       fill,
       { scaleY: 0 },
@@ -267,7 +269,7 @@ function initServicesPin(): void {
         scaleY: 1,
         ease: 'none',
         scrollTrigger: {
-          trigger: '#servicios',
+          trigger: list,
           start: 'top 65%',
           end: 'bottom 80%',
           scrub: 0.6,
