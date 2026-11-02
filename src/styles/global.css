@@ -1022,10 +1022,6 @@
     margin-top: 0.25rem;
   }
 
-  .pricing-head .provisional-tag {
-    margin-top: 0.25rem;
-  }
-
   .pricing-groups {
     display: grid;
     gap: clamp(2.5rem, 5vw, 4rem);
@@ -1564,10 +1560,6 @@
   }
 
   .contact .section-label {
-    color: var(--color-powder);
-  }
-
-  .contact .provisional-tag {
     color: var(--color-powder);
   }
 

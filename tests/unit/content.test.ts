@@ -121,19 +121,21 @@ describe('confirmed content', () => {
   });
 });
 
-describe('provisional business data', () => {
-  it('marks the phone, address and schedule as provisional', () => {
-    expect(site.phone.provisional).toBe(true);
-    expect(site.address.provisional).toBe(true);
-    expect(site.address.numberPending).toBe(true);
-    expect(site.hours.provisional).toBe(true);
-  });
-
-  it('keeps the approved provisional phone and Instagram source', () => {
+describe('business data', () => {
+  it('keeps the approved phone, address, hours and Instagram source', () => {
     expect(site.phone.href).toBe('tel:+34747496624');
     expect(site.phone.display).toBe('747 49 66 24');
+    expect(site.address.line1).toBe('Calle de Artica');
+    expect(site.address.line2).toBe('Pamplona, Navarra');
+    expect(site.hours.label).toBe('Horario');
     expect(site.instagram.url).toBe(
       'https://www.instagram.com/muanails.es/?hl=es',
+    );
+  });
+
+  it('contains no provisional references in the data', () => {
+    expect(JSON.stringify(site)).not.toMatch(
+      /provisional|pendiente de confirmar/i,
     );
   });
 

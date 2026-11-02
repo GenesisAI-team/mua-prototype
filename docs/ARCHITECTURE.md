@@ -4,11 +4,11 @@
 
 Landing estática de una sola página construida con Astro 7 (`output: 'static'`), TypeScript `strictest` y Tailwind CSS 4 mediante `@tailwindcss/vite`. No hay React, CMS, backend, formularios ni reservas automáticas; las CTAs de servicio abren WhatsApp directamente.
 
-La base es GEN-9: composición, responsive, navegación, motion y SEO prudente. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, reubica el antiguo hero en la galería y mantiene los slots de imagen como parte del layout, no como un añadido posterior. GEN-22 amplía la sección de servicios con cinco tarjetas, un tarifario agrupado y enlaces de reserva a WhatsApp.
+La base es GEN-9: composición, responsive, navegación, motion y SEO prudente. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, reubica el antiguo hero en la galería y mantiene los slots de imagen como parte del layout, no como un añadido posterior. GEN-22 amplía la sección de servicios con cinco tarjetas, un tarifario agrupado y enlaces de reserva a WhatsApp. GEN-23 convierte la CTA principal del hero en enlace de llamada y GEN-24 elimina los estados de dato provisional de la UI, los datos y las reglas.
 
 ## Capas
 
-- `src/data/site.ts`: datos de contacto y estado provisional. Es la única fuente para teléfono, WhatsApp, dirección, horario e Instagram.
+- `src/data/site.ts`: datos de contacto. Es la única fuente para teléfono, WhatsApp, dirección, horario e Instagram.
 - `src/data/content.ts`: navegación, servicios, tarifario agrupado, galería, principios y pasos de visita.
 - `src/lib/whatsapp.ts`: construye enlaces `wa.me` con el mensaje de cada servicio codificado.
 - `src/data/images.ts`: inventario tipado de imágenes. Incluye id, sección, ratio, dimensiones reales, alt, tono, nota, `src` y `objectPosition`.
@@ -22,7 +22,7 @@ La base es GEN-9: composición, responsive, navegación, motion y SEO prudente. 
 
 ### Contenido prudente
 
-La sección de servicios muestra cinco tarjetas —manicura/esmaltado semipermanente, uñas acrílicas/extensiones, pedicura, diseño de cejas y tratamiento facial— y un tarifario agrupado en Manicura, Pedicura y Otros servicios. Las tarjetas no muestran precios; el tarifario usa exclusivamente las tarifas facilitadas por el negocio y no añade IVA, protocolos ni duraciones no confirmadas. Las CTAs de reserva construyen un enlace `wa.me` con el servicio prerrellenado; no hay formularios ni reservas automáticas. Los datos sensibles se muestran como provisionales y no se incluye schema `LocalBusiness` con teléfono, dirección, precios ni reseñas sin verificar. El JSON-LD se limita a `WebSite` con nombre, idioma y descripción.
+La sección de servicios muestra cinco tarjetas —manicura/esmaltado semipermanente, uñas acrílicas/extensiones, pedicura, diseño de cejas y tratamiento facial— y un tarifario agrupado en Manicura, Pedicura y Otros servicios. Las tarjetas no muestran precios; el tarifario usa exclusivamente las tarifas facilitadas por el negocio y no añade IVA, protocolos ni duraciones no confirmadas. Las CTAs de reserva construyen un enlace `wa.me` con el servicio prerrellenado; no hay formularios ni reservas automáticas. Los datos de contacto se muestran como valores directos y no se incluye schema `LocalBusiness`. El JSON-LD se limita a `WebSite` con nombre, idioma y descripción.
 
 ### Imágenes
 

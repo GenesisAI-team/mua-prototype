@@ -2,11 +2,11 @@
 
 Propuesta **no oficial** de la nueva web de MUA Estética (Pamplona). Astro 7 estático, TypeScript estricto, Tailwind CSS 4 y una capa de motion con GSAP + ScrollTrigger + Lenis.
 
-La base es GEN-9: plantilla visual, responsive, navegación, SEO prudente y experiencia de scroll. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas, sin rehacer el motion. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, y reubica el antiguo hero en la galería. GEN-22 completa los cinco servicios, añade el tarifario y conecta las CTAs con WhatsApp. GEN-23 cambia la CTA principal del hero para iniciar la llamada telefónica.
+La base es GEN-9: plantilla visual, responsive, navegación, SEO prudente y experiencia de scroll. GEN-12 incorpora el lote de imágenes aprobado como recreaciones visuales ilustrativas, sin rehacer el motion. GEN-21 amplía el hero con un mosaico editorial de interior y cinco secundarias, y reubica el antiguo hero en la galería. GEN-22 completa los cinco servicios, añade el tarifario y conecta las CTAs con WhatsApp. GEN-23 cambia la CTA principal del hero para iniciar la llamada telefónica. GEN-24 elimina todas las referencias de contenido provisional.
 
-- Issues: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets) · [GEN-12](https://linear.app/genesisnavarra/issue/GEN-12/mua-estetica-integrar-imagenes-finales-y-documentar-prompts-y) · [GEN-21](https://linear.app/genesisnavarra/issue/GEN-21/mua-estetica-ampliar-el-hero-con-mosaico-de-interior-y-) · [GEN-22](https://linear.app/genesisnavarra/issue/GEN-22/mua-estetica-completar-servicios-tarifario-y-reserva-por-whatsapp) · [GEN-23](https://linear.app/genesisnavarra/issue/GEN-23/mua-estetica-cta-del-hero-abre-llamada-telefonica)
+- Issues: [GEN-9](https://linear.app/genesisnavarra/issue/GEN-9/mua-estetica-plantilla-inicial-astro-motion-gsaplenis-sin-assets) · [GEN-12](https://linear.app/genesisnavarra/issue/GEN-12/mua-estetica-integrar-imagenes-finales-y-documentar-prompts-y) · [GEN-21](https://linear.app/genesisnavarra/issue/GEN-21/mua-estetica-ampliar-el-hero-con-mosaico-de-interior-y-) · [GEN-22](https://linear.app/genesisnavarra/issue/GEN-22/mua-estetica-completar-servicios-tarifario-y-reserva-por-whatsapp) · [GEN-23](https://linear.app/genesisnavarra/issue/GEN-23/mua-estetica-cta-del-hero-abre-llamada-telefonica) · [GEN-24](https://linear.app/genesisnavarra/issue/GEN-24/mua-estetica-eliminar-referencias-provisionales)
 - Repo: `GenesisAI-team/mua-prototype`
-- Rama: `feat/GEN-23-hero-cta-llamada` (desde `main`)
+- Rama: `refactor/GEN-24-eliminar-provisional` (desde `main`)
 
 ## Requisitos
 
@@ -63,7 +63,7 @@ docs/
 - La sección incluye un tarifario agrupado en Manicura, Pedicura y Otros servicios con las tarifas facilitadas por el negocio. Las tarjetas no muestran precios.
 - Las CTAs de reserva abren directamente el WhatsApp `747 49 66 24` con el servicio prerrellenado. No hay formularios ni reservas automáticas.
 - La CTA principal del hero, «Consultar disponibilidad», abre el marcador telefónico con `tel:+34747496624`; «Ver servicios» mantiene su ancla interna.
-- Teléfono, WhatsApp, dirección en Calle de Artica, horario y reseñas están marcados como **provisionales** en la UI y en `src/data/site.ts`.
+- Teléfono, WhatsApp y dirección en Calle de Artica se muestran como datos de contacto directos.
 - No hay profesionales, historia, testimonios, productos ni promesas clínicas.
 - El sitio lleva el aviso visible de propuesta no oficial, `noindex, nofollow` y `robots.txt` con `Disallow: /`.
 - Las imágenes son recreaciones visuales con IA, presentadas como **“Imágenes ilustrativas”**; no son fotografías reales ni trabajos verificados. El mapa sigue pendiente.
