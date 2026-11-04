@@ -165,16 +165,27 @@ function initHeroFloat(): void {
 
     const AMP = 10;
 
-    // Starts flat at 0°, swings out to ±AMP and then yoyos the full range, so
-    // a settle/resume cycle can always hand over smoothly through 0.
+    // Starts flat at 0°, swings out to ±AMP on both axes (X and Y in
+    // opposite signs → diagonal 3D rock) and then yoyos the full range, so a
+    // settle/resume cycle can always hand over smoothly through 0.
     const build = (el: HTMLElement, dir: number): gsap.core.Timeline => {
       const tl = gsap.timeline({ repeat: -1, yoyo: true });
       tl.fromTo(
         el,
-        { rotationX: 0 },
-        { rotationX: dir * AMP, duration: 1.7, ease: 'sine.inOut' },
+        { rotationX: 0, rotationY: 0 },
+        {
+          rotationX: dir * AMP,
+          rotationY: -dir * AMP,
+          duration: 1.7,
+          ease: 'sine.inOut',
+        },
       );
-      tl.to(el, { rotationX: -dir * AMP, duration: 3.4, ease: 'sine.inOut' });
+      tl.to(el, {
+        rotationX: -dir * AMP,
+        rotationY: dir * AMP,
+        duration: 3.4,
+        ease: 'sine.inOut',
+      });
       return tl;
     };
 
@@ -182,30 +193,27 @@ function initHeroFloat(): void {
     let settling = false;
     let resumeTimer = 0;
 
-    // Re-projecting the 3D tilt while the page scrolls causes dropped frames,
-    // and a photo frozen mid-tilt reads as a "drag" against the scrolling
-    // page. On scroll: ease flat to 0° (in the page plane). On idle: breathe
-    // back in from 0.
+    // An eased flatten during the first scroll frames itself read as a drag
+    // against the moving page. Flatten INSTANTLY on wheel/touchstart — before
+    // the page moves — so during any scroll the photos are perfectly static
+    // and flat in the page plane (no 3D re-projection at all). The breath
+    // rebuilds from 0 once scrolling has fully settled.
     const settle = (): void => {
       if (!settling) {
         settling = true;
         timelines.forEach((tl) => tl.kill());
-        gsap.to([main, facade], {
-          rotationX: 0,
-          duration: 0.18,
-          ease: 'power3.out',
-          overwrite: 'auto',
-        });
+        gsap.set([main, facade], { rotationX: 0, rotationY: 0 });
       }
 
       window.clearTimeout(resumeTimer);
       resumeTimer = window.setTimeout(() => {
-        gsap.killTweensOf([main, facade]);
         settling = false;
         timelines = [build(main, 1), build(facade, -1)];
       }, 280);
     };
 
+    window.addEventListener('wheel', settle, { passive: true });
+    window.addEventListener('touchstart', settle, { passive: true });
     window.addEventListener('scroll', settle, { passive: true });
   });
 }

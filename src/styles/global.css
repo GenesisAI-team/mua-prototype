@@ -588,8 +588,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
       'main main'
-      'facade facade'
-      'rail-h rail-h';
+      'facade facade';
     gap: 0.6rem;
   }
 
@@ -640,10 +639,9 @@
   }
 
   .hero-rail-h {
-    grid-area: rail-h;
+    grid-column: 1 / -1;
     overflow: hidden;
     height: clamp(9.5rem, 46vw, 13.5rem);
-    display: none;
   }
 
   .hero-rail-h__track {
@@ -663,6 +661,7 @@
     flex: 0 0 auto;
     width: auto;
     height: 100%;
+    min-height: 0;
     margin-right: 0.6rem;
   }
 
@@ -731,10 +730,6 @@
     .hero-visual__media--tile-one,
     .hero-visual__media--tile-two {
       display: block;
-    }
-
-    .hero-rail-h {
-      display: none;
     }
 
     .hero-rail {

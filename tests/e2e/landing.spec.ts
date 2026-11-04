@@ -141,8 +141,8 @@ test.describe('MUA landing', () => {
   }) => {
     await page.goto('/');
 
-    // Desktop: main + 2 tiles + 6 del rail vertical. Móvil: la franja
-    // horizontal está oculta de momento, solo quedan main y fachada.
+    // Desktop: main + 2 tiles + 6 del rail vertical. Móvil: solo main y
+    // fachada (la franja horizontal ahora vive en la sección de servicios).
     const expectedMedia = viewport && viewport.width >= 900 ? 9 : 2;
 
     await expect(
@@ -150,7 +150,7 @@ test.describe('MUA landing', () => {
     ).toHaveCount(expectedMedia);
     await expect(
       page.locator('.hero-collage .media__img[src*="mua-hero"]'),
-    ).toHaveCount(19);
+    ).toHaveCount(11);
   });
 
   test('layers the last four gallery images in an overlapping cluster', async ({

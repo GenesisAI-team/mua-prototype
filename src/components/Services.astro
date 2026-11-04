@@ -55,6 +55,43 @@ const priceMessage = (item: { title: string; variant?: string }) =>
       ))}
     </div>
 
+    <div class="hero-rail-h">
+      <div class="hero-rail-h__track">
+        <div class="hero-rail-h__set">
+          <Media slot="hero-interior-02" class="hero-rail-h__media" eager />
+          <Media slot="hero-interior-01" class="hero-rail-h__media" eager />
+          <Media slot="hero-interior-03" class="hero-rail-h__media" eager />
+          <Media slot="hero-detalle" class="hero-rail-h__media" eager />
+        </div>
+        <div class="hero-rail-h__set" aria-hidden="true">
+          <Media
+            slot="hero-interior-02"
+            class="hero-rail-h__media"
+            eager
+            reveal={false}
+          />
+          <Media
+            slot="hero-interior-01"
+            class="hero-rail-h__media"
+            eager
+            reveal={false}
+          />
+          <Media
+            slot="hero-interior-03"
+            class="hero-rail-h__media"
+            eager
+            reveal={false}
+          />
+          <Media
+            slot="hero-detalle"
+            class="hero-rail-h__media"
+            eager
+            reveal={false}
+          />
+        </div>
+      </div>
+    </div>
+
     <section class="services-pricing" aria-labelledby="pricing-title">
       <div class="pricing-head">
         <span class="section-label">Tarifas</span>
