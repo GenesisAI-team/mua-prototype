@@ -163,47 +163,50 @@ function initHeroFloat(): void {
     // px vertically on every breath, which read as jitter while scrolling.
     gsap.set([main, facade], { transformPerspective: 1200 });
 
-    const tweens = [
-      gsap.fromTo(
-        main,
-        { rotationX: -7 },
-        {
-          rotationX: 7,
-          duration: 3.4,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        },
-      ),
-      gsap.fromTo(
-        facade,
-        { rotationX: 7 },
-        {
-          rotationX: -7,
-          duration: 3.4,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        },
-      ),
-    ];
+    const AMP = 10;
 
-    // Re-projection of the 3D tilt while the page scrolls caused dropped
-    // frames (a lag/vibration illusion). Hold the float still during scroll
-    // and resume shortly after the page settles.
+    // Starts flat at 0°, swings out to ±AMP and then yoyos the full range, so
+    // a settle/resume cycle can always hand over smoothly through 0.
+    const build = (el: HTMLElement, dir: number): gsap.core.Timeline => {
+      const tl = gsap.timeline({ repeat: -1, yoyo: true });
+      tl.fromTo(
+        el,
+        { rotationX: 0 },
+        { rotationX: dir * AMP, duration: 1.7, ease: 'sine.inOut' },
+      );
+      tl.to(el, { rotationX: -dir * AMP, duration: 3.4, ease: 'sine.inOut' });
+      return tl;
+    };
+
+    let timelines = [build(main, 1), build(facade, -1)];
+    let settling = false;
     let resumeTimer = 0;
 
-    window.addEventListener(
-      'scroll',
-      () => {
-        tweens.forEach((tween) => tween.pause());
-        window.clearTimeout(resumeTimer);
-        resumeTimer = window.setTimeout(() => {
-          tweens.forEach((tween) => tween.resume());
-        }, 260);
-      },
-      { passive: true },
-    );
+    // Re-projecting the 3D tilt while the page scrolls causes dropped frames,
+    // and a photo frozen mid-tilt reads as a "drag" against the scrolling
+    // page. On scroll: ease flat to 0° (in the page plane). On idle: breathe
+    // back in from 0.
+    const settle = (): void => {
+      if (!settling) {
+        settling = true;
+        timelines.forEach((tl) => tl.kill());
+        gsap.to([main, facade], {
+          rotationX: 0,
+          duration: 0.18,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        });
+      }
+
+      window.clearTimeout(resumeTimer);
+      resumeTimer = window.setTimeout(() => {
+        gsap.killTweensOf([main, facade]);
+        settling = false;
+        timelines = [build(main, 1), build(facade, -1)];
+      }, 280);
+    };
+
+    window.addEventListener('scroll', settle, { passive: true });
   });
 }
 

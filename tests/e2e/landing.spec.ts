@@ -141,7 +141,9 @@ test.describe('MUA landing', () => {
   }) => {
     await page.goto('/');
 
-    const expectedMedia = viewport && viewport.width >= 900 ? 9 : 10;
+    // Desktop: main + 2 tiles + 6 del rail vertical. Móvil: la franja
+    // horizontal está oculta de momento, solo quedan main y fachada.
+    const expectedMedia = viewport && viewport.width >= 900 ? 9 : 2;
 
     await expect(
       page.locator('.hero-collage .media:visible'),

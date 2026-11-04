@@ -643,6 +643,7 @@
     grid-area: rail-h;
     overflow: hidden;
     height: clamp(9.5rem, 46vw, 13.5rem);
+    display: none;
   }
 
   .hero-rail-h__track {
