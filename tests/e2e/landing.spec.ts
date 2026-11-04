@@ -155,10 +155,17 @@ test.describe('MUA landing', () => {
 
   test('runs the services marquee on GSAP ticker and respects reduced motion', async ({
     page,
+    viewport,
   }, testInfo) => {
     await page.goto('/');
 
     const track = page.locator('.hero-rail-h__track');
+
+    if (!viewport || viewport.width >= 900) {
+      await expect(track).not.toBeVisible();
+      return;
+    }
+
     await expect(track).toBeVisible();
 
     const initialTransform = await track.evaluate(

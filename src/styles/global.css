@@ -661,8 +661,15 @@
 
   .hero-rail-h {
     grid-column: 1 / -1;
+    display: none;
     overflow: hidden;
     height: clamp(11rem, 70vw, 16rem);
+  }
+
+  @media (max-width: 899px) {
+    .hero-rail-h {
+      display: block;
+    }
   }
 
   .hero-rail-h__track {
