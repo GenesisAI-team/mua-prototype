@@ -132,92 +132,6 @@ function initHero(): void {
   }
 }
 
-function initHeroFloat(): void {
-  if (!window.matchMedia('(max-width: 899px)').matches) {
-    return;
-  }
-
-  const main = document.querySelector<HTMLElement>('.hero-visual__media--mobile');
-  const facade = document.querySelector<HTMLElement>('.hero-visual__media--facade');
-
-  if (!main || !facade) {
-    return;
-  }
-
-  const imgs = [main, facade]
-    .map((el) => el.querySelector('img'))
-    .filter((img): img is HTMLImageElement => Boolean(img));
-
-  void Promise.all(
-    imgs.map((img) =>
-      img.complete && img.naturalWidth > 0
-        ? img.decode().catch(() => undefined)
-        : new Promise<void>((resolve) => {
-            img.addEventListener('load', () => resolve(), { once: true });
-            img.addEventListener('error', () => resolve(), { once: true });
-          }),
-    ),
-  ).then(() => {
-    // Perspective anchored to each element's own center: a shared perspective
-    // origin (the collage center) made the rotation translate the images a few
-    // px vertically on every breath, which read as jitter while scrolling.
-    gsap.set([main, facade], { transformPerspective: 1200 });
-
-    const AMP = 10;
-
-    // Starts flat at 0°, swings out to ±AMP on both axes (X and Y in
-    // opposite signs → diagonal 3D rock) and then yoyos the full range, so a
-    // settle/resume cycle can always hand over smoothly through 0.
-    const build = (el: HTMLElement, dir: number): gsap.core.Timeline => {
-      const tl = gsap.timeline({ repeat: -1, yoyo: true });
-      tl.fromTo(
-        el,
-        { rotationX: 0, rotationY: 0 },
-        {
-          rotationX: dir * AMP,
-          rotationY: -dir * AMP,
-          duration: 1.7,
-          ease: 'sine.inOut',
-        },
-      );
-      tl.to(el, {
-        rotationX: -dir * AMP,
-        rotationY: dir * AMP,
-        duration: 3.4,
-        ease: 'sine.inOut',
-      });
-      return tl;
-    };
-
-    let timelines = [build(main, 1), build(facade, -1)];
-    let settling = false;
-    let resumeTimer = 0;
-
-    // An eased flatten during the first scroll frames itself read as a drag
-    // against the moving page. Flatten INSTANTLY on wheel/touchstart — before
-    // the page moves — so during any scroll the photos are perfectly static
-    // and flat in the page plane (no 3D re-projection at all). The breath
-    // rebuilds from 0 once scrolling has fully settled.
-    const settle = (): void => {
-      if (!settling) {
-        settling = true;
-        timelines.forEach((tl) => tl.kill());
-        gsap.set([main, facade], { rotationX: 0, rotationY: 0 });
-      }
-
-      window.clearTimeout(resumeTimer);
-      resumeTimer = window.setTimeout(() => {
-        settling = false;
-        timelines = [build(main, 1), build(facade, -1)];
-      }, 280);
-    };
-
-    window.addEventListener('wheel', settle, { passive: true });
-    window.addEventListener('touchstart', settle, { passive: true });
-    window.addEventListener('scroll', settle, { passive: true });
-  });
-}
-
 function initWordReveal(): void {
   if (REDUCED_MOTION.matches) {
     return;
@@ -411,7 +325,6 @@ export function initMotion(): void {
   const lenis = initSmoothScroll();
   initAnchorScrolling(lenis);
   initHero();
-  initHeroFloat();
   initWordReveal();
   initReveals();
   initImageReveals();
