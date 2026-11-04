@@ -132,6 +132,58 @@ function initHero(): void {
   }
 }
 
+function initHeroFloat(): void {
+  if (!window.matchMedia('(max-width: 899px)').matches) {
+    return;
+  }
+
+  const main = document.querySelector<HTMLElement>('.hero-visual__media--mobile');
+  const facade = document.querySelector<HTMLElement>('.hero-visual__media--facade');
+
+  if (!main || !facade) {
+    return;
+  }
+
+  const imgs = [main, facade]
+    .map((el) => el.querySelector('img'))
+    .filter((img): img is HTMLImageElement => Boolean(img));
+
+  void Promise.all(
+    imgs.map((img) =>
+      img.complete && img.naturalWidth > 0
+        ? img.decode().catch(() => undefined)
+        : new Promise<void>((resolve) => {
+            img.addEventListener('load', () => resolve(), { once: true });
+            img.addEventListener('error', () => resolve(), { once: true });
+          }),
+    ),
+  ).then(() => {
+    gsap.fromTo(
+      main,
+      { rotationX: -2.5 },
+      {
+        rotationX: 2.5,
+        duration: 3.4,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+      },
+    );
+
+    gsap.fromTo(
+      facade,
+      { rotationX: 2.5 },
+      {
+        rotationX: -2.5,
+        duration: 3.4,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+      },
+    );
+  });
+}
+
 function initWordReveal(): void {
   if (REDUCED_MOTION.matches) {
     return;
@@ -325,6 +377,7 @@ export function initMotion(): void {
   const lenis = initSmoothScroll();
   initAnchorScrolling(lenis);
   initHero();
+  initHeroFloat();
   initWordReveal();
   initReveals();
   initImageReveals();

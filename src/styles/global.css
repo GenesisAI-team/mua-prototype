@@ -591,6 +591,7 @@
       'facade facade'
       'rail-h rail-h';
     gap: 0.6rem;
+    perspective: 1200px;
   }
 
   .hero-visual__media {

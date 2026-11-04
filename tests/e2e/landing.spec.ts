@@ -209,13 +209,18 @@ test.describe('MUA landing', () => {
 
     for (let index = 0; index < imageCount; index += 1) {
       const image = images.nth(index);
-      const inRail = await image.evaluate((node) =>
-        Boolean(node.closest('.hero-rail, .hero-rail-h')),
+      const alwaysMoving = await image.evaluate((node) =>
+        Boolean(
+          node.closest(
+            '.hero-rail, .hero-rail-h, .hero-visual__media--mobile, .hero-visual__media--facade',
+          ),
+        ),
       );
 
-      // The rail loops forever, so Playwright would wait for a stability that
-      // never comes; those images sit in the initial viewport and load already.
-      if (inRail) {
+      // The rails loop forever and the mobile collage floats in 3D, so
+      // Playwright would wait for a stability that never comes; those images
+      // sit near the top of the page and load already.
+      if (alwaysMoving) {
         continue;
       }
 
