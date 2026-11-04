@@ -83,7 +83,7 @@ Inventario, procedencia y descartes en [docs/IMAGES.md](docs/IMAGES.md).
 ## Motion
 
 - Lenis gestiona el scroll suave y se sincroniza con el ticker de GSAP y `ScrollTrigger.update`; no se usa en táctil ni con `prefers-reduced-motion`.
-- Hero: reveal tipográfico por líneas + máscara escalonada de las imágenes visibles del mosaico. En desktop la columna derecha es un rail `.hero-rail` con las tres fotos de la derecha en loop vertical infinito (CSS puro, 30s); en móvil la fachada se superpone sobre la principal con inclinaciones opuestas sutiles y la franja `.hero-rail-h` recorre cuatro fotos de derecha a izquierda. Al cargarse estas dos fotos, GSAP las hace oscilar en 3D en fases opuestas (`rotationX` ±7°).
+- Hero: reveal tipográfico por líneas + máscara escalonada de las imágenes visibles del mosaico. En desktop la columna derecha es un rail `.hero-rail` con las tres fotos de la derecha en loop vertical infinito (CSS puro, 30s); en móvil la fachada se superpone sobre la principal con inclinaciones opuestas sutiles y la franja `.hero-rail-h` recorre cuatro fotos de derecha a izquierda. Al cargarse estas dos fotos, GSAP las hace oscilar en 3D en fases opuestas (`rotationX` ±7°), en pausa mientras hay scroll.
 - Secciones: reveals una sola vez mediante `ScrollTrigger.batch`.
 - Servicios: un único pin de la introducción en desktop, con barra de progreso scrub; acompaña las cinco tarjetas y se libera antes del tarifario.
 - Galería: hover/tap sutil, sin scroll horizontal forzado.

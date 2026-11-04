@@ -158,28 +158,51 @@ function initHeroFloat(): void {
           }),
     ),
   ).then(() => {
-    gsap.fromTo(
-      main,
-      { rotationX: -7 },
-      {
-        rotationX: 7,
-        duration: 3.4,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      },
-    );
+    // Perspective anchored to each element's own center: a shared perspective
+    // origin (the collage center) made the rotation translate the images a few
+    // px vertically on every breath, which read as jitter while scrolling.
+    gsap.set([main, facade], { transformPerspective: 1200 });
 
-    gsap.fromTo(
-      facade,
-      { rotationX: 7 },
-      {
-        rotationX: -7,
-        duration: 3.4,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
+    const tweens = [
+      gsap.fromTo(
+        main,
+        { rotationX: -7 },
+        {
+          rotationX: 7,
+          duration: 3.4,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        },
+      ),
+      gsap.fromTo(
+        facade,
+        { rotationX: 7 },
+        {
+          rotationX: -7,
+          duration: 3.4,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        },
+      ),
+    ];
+
+    // Re-projection of the 3D tilt while the page scrolls caused dropped
+    // frames (a lag/vibration illusion). Hold the float still during scroll
+    // and resume shortly after the page settles.
+    let resumeTimer = 0;
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        tweens.forEach((tween) => tween.pause());
+        window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(() => {
+          tweens.forEach((tween) => tween.resume());
+        }, 260);
       },
+      { passive: true },
     );
   });
 }

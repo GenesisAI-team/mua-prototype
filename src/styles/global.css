@@ -591,7 +591,6 @@
       'facade facade'
       'rail-h rail-h';
     gap: 0.6rem;
-    perspective: 1200px;
   }
 
   .hero-visual__media {
@@ -613,6 +612,7 @@
     margin-top: -6rem;
     z-index: 1;
     transform: rotate(4deg);
+    will-change: transform;
     box-shadow:
       0 28px 60px -32px color-mix(in srgb, var(--color-charcoal) 55%, transparent);
   }
@@ -678,6 +678,7 @@
   .hero-visual__media--mobile {
     display: block;
     transform: rotate(-1.5deg);
+    will-change: transform;
   }
 
   .hero-visual__note {
