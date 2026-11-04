@@ -607,9 +607,11 @@
   .hero-visual__media--facade {
     grid-area: facade;
     aspect-ratio: 4 / 3;
-    margin-top: -1.5rem;
+    align-self: start;
+    height: auto;
+    margin-top: -6rem;
     z-index: 1;
-    transform: rotate(1.5deg);
+    transform: rotate(4deg);
     box-shadow:
       0 28px 60px -32px color-mix(in srgb, var(--color-charcoal) 55%, transparent);
   }
