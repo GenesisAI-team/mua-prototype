@@ -37,7 +37,7 @@ Cada slot declara ratio, dimensiones reales y, cuando hace falta, `objectPositio
 - Las anclas se interceptan solo cuando Lenis está activo. Sin Lenis, el navegador usa el scroll nativo y `scroll-margin-top`.
 - Las animaciones se limitan a `transform`, `opacity` y `clip-path`.
 - El hero revela el título por líneas y enmascara las imágenes visibles del mosaico con un stagger corto (incluidas las del rail); las imágenes del hero se excluyen de `initImageReveals` para no duplicar triggers. El loop del rail es CSS puro (`@keyframes` `translateY(-50%)`, 30s) y con `prefers-reduced-motion` queda estático. La franja móvil `.hero-rail-h` reutiliza el mismo patrón con `translateX(-50%)` sobre un track `width: max-content` de dos sets idénticos.
-- El hero móvil añade un flotante 3D: cuando la principal y la fachada terminan de cargar (`img.decode`), GSAP alterna `rotationX` ±2.5° en fases opuestas (`sine.inOut`, `yoyo`, 3.4s) sobre el `perspective` de `.hero-collage`; es solo móvil (`matchMedia`), queda ausente sin JS y con `prefers-reduced-motion` (el gate de `initMotion` lo evita).
+- El hero móvil añade un flotante 3D: cuando la principal y la fachada terminan de cargar (`img.decode`), GSAP alterna `rotationX` ±7° en fases opuestas (`sine.inOut`, `yoyo`, 3.4s) sobre el `perspective` de `.hero-collage`; es solo móvil (`matchMedia`), queda ausente sin JS y con `prefers-reduced-motion` (el gate de `initMotion` lo evita).
 - `ScrollTrigger.batch` agrupa los reveals para evitar decenas de triggers simultáneos.
 - El menú móvil detiene y reanuda Lenis mediante el evento `mua:menu`.
 - Si el módulo de motion falla, un timeout inline añade `motion-failed` y muestra todo el contenido.

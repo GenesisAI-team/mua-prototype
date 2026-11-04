@@ -160,9 +160,9 @@ function initHeroFloat(): void {
   ).then(() => {
     gsap.fromTo(
       main,
-      { rotationX: -2.5 },
+      { rotationX: -7 },
       {
-        rotationX: 2.5,
+        rotationX: 7,
         duration: 3.4,
         ease: 'sine.inOut',
         yoyo: true,
@@ -172,9 +172,9 @@ function initHeroFloat(): void {
 
     gsap.fromTo(
       facade,
-      { rotationX: 2.5 },
+      { rotationX: 7 },
       {
-        rotationX: -2.5,
+        rotationX: -7,
         duration: 3.4,
         ease: 'sine.inOut',
         yoyo: true,
