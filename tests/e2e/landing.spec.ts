@@ -123,7 +123,7 @@ test.describe('MUA landing', () => {
 
     const media = page.locator('[data-image-reveal]');
     expect(await media.count()).toBeGreaterThanOrEqual(23);
-    await expect(page.locator('.media__img')).toHaveCount(28);
+    await expect(page.locator('.media__img')).toHaveCount(34);
     await expect(page.locator('.media__label')).toHaveCount(1);
     await expect(page.locator('.media__label')).toHaveText('MAPA PENDIENTE');
     await expect(page.getByText('Imágenes ilustrativas').first()).toBeVisible();
@@ -141,14 +141,46 @@ test.describe('MUA landing', () => {
   }) => {
     await page.goto('/');
 
-    const expectedMedia = viewport && viewport.width >= 900 ? 9 : 6;
+    // Desktop: main + 2 tiles + 6 del rail vertical. Móvil: solo main y
+    // fachada (la franja horizontal ahora vive en la sección de servicios).
+    const expectedMedia = viewport && viewport.width >= 900 ? 9 : 2;
 
     await expect(
       page.locator('.hero-collage .media:visible'),
     ).toHaveCount(expectedMedia);
     await expect(
       page.locator('.hero-collage .media__img[src*="mua-hero"]'),
-    ).toHaveCount(13);
+    ).toHaveCount(11);
+  });
+
+  test('runs the services marquee on GSAP ticker and respects reduced motion', async ({
+    page,
+    viewport,
+  }, testInfo) => {
+    await page.goto('/');
+
+    const track = page.locator('.hero-rail-h__track');
+
+    if (!viewport || viewport.width >= 900) {
+      await expect(track).not.toBeVisible();
+      return;
+    }
+
+    await expect(track).toBeVisible();
+
+    const initialTransform = await track.evaluate(
+      (node) => getComputedStyle(node).transform,
+    );
+    await page.waitForTimeout(500);
+    const nextTransform = await track.evaluate(
+      (node) => getComputedStyle(node).transform,
+    );
+
+    if (testInfo.project.name === 'reduced-motion') {
+      expect(nextTransform).toBe(initialTransform);
+    } else {
+      expect(nextTransform).not.toBe(initialTransform);
+    }
   });
 
   test('layers the last four gallery images in an overlapping cluster', async ({
@@ -209,13 +241,18 @@ test.describe('MUA landing', () => {
 
     for (let index = 0; index < imageCount; index += 1) {
       const image = images.nth(index);
-      const inRail = await image.evaluate((node) =>
-        Boolean(node.closest('.hero-rail')),
+      const alwaysMoving = await image.evaluate((node) =>
+        Boolean(
+          node.closest(
+            '.hero-rail, .hero-rail-h, .hero-visual__media--mobile, .hero-visual__media--facade',
+          ),
+        ),
       );
 
-      // The rail loops forever, so Playwright would wait for a stability that
-      // never comes; those images sit in the initial viewport and load already.
-      if (inRail) {
+      // The rails loop forever and the mobile collage floats in 3D, so
+      // Playwright would wait for a stability that never comes; those images
+      // sit near the top of the page and load already.
+      if (alwaysMoving) {
         continue;
       }
 
@@ -317,7 +354,7 @@ test.describe('MUA landing', () => {
     await expect(
       page.getByRole('navigation', { name: 'Navegación sin JavaScript' }),
     ).toBeVisible();
-    await expect(page.locator('.media__img')).toHaveCount(28);
+    await expect(page.locator('.media__img')).toHaveCount(34);
     await expect(page.locator('.media__label:visible')).toHaveCount(1);
     await expect(page.locator('.hero-collage .media:visible')).toHaveCount(9);
 
