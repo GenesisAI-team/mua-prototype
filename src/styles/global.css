@@ -670,6 +670,7 @@
     width: max-content;
     height: 100%;
     will-change: transform;
+    backface-visibility: hidden;
     animation: hero-rail-h-loop 30s linear infinite;
   }
 
@@ -686,9 +687,15 @@
     margin-right: 0.6rem;
   }
 
+  /* La trama de rejilla de 1px titila con el desplazamiento sub-píxel del
+     loop; en la franja se desactiva para una textura estable. */
+  .hero-rail-h .media::before {
+    content: none;
+  }
+
   @keyframes hero-rail-h-loop {
     to {
-      transform: translateX(-50%);
+      transform: translate3d(-50%, 0, 0);
     }
   }
 
