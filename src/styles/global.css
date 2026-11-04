@@ -662,7 +662,7 @@
   .hero-rail-h {
     grid-column: 1 / -1;
     overflow: hidden;
-    height: clamp(9.5rem, 46vw, 13.5rem);
+    height: clamp(11rem, 70vw, 16rem);
   }
 
   .hero-rail-h__track {
@@ -670,8 +670,6 @@
     width: max-content;
     height: 100%;
     will-change: transform;
-    backface-visibility: hidden;
-    animation: hero-rail-h-loop 30s linear infinite;
   }
 
   .hero-rail-h__set {
@@ -684,19 +682,13 @@
     width: auto;
     height: 100%;
     min-height: 0;
-    margin-right: 0.6rem;
+    margin-right: 0.3rem;
   }
 
   /* La trama de rejilla de 1px titila con el desplazamiento sub-píxel del
      loop; en la franja se desactiva para una textura estable. */
   .hero-rail-h .media::before {
     content: none;
-  }
-
-  @keyframes hero-rail-h-loop {
-    to {
-      transform: translate3d(-50%, 0, 0);
-    }
   }
 
   .hero-visual__media--desktop {
@@ -2035,10 +2027,6 @@
     }
 
     .hero-rail__track {
-      animation: none;
-    }
-
-    .hero-rail-h__track {
       animation: none;
     }
 

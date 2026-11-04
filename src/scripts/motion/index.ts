@@ -308,6 +308,21 @@ function initFooterReveal(): void {
   );
 }
 
+function initServicesMarquee(): void {
+  const track = document.querySelector<HTMLElement>('.hero-rail-h__track');
+
+  if (!track) {
+    return;
+  }
+
+  gsap.to(track, {
+    xPercent: -50,
+    duration: 30,
+    ease: 'none',
+    repeat: -1,
+  });
+}
+
 export function initMotion(): void {
   const root = document.documentElement;
   const motionWindow = window as MotionWindow;
@@ -329,6 +344,7 @@ export function initMotion(): void {
   initReveals();
   initImageReveals();
   initServicesPin();
+  initServicesMarquee();
   initFooterReveal();
 
   document.fonts.ready.then(() => {

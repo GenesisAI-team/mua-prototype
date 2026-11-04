@@ -153,6 +153,29 @@ test.describe('MUA landing', () => {
     ).toHaveCount(11);
   });
 
+  test('runs the services marquee on GSAP ticker and respects reduced motion', async ({
+    page,
+  }, testInfo) => {
+    await page.goto('/');
+
+    const track = page.locator('.hero-rail-h__track');
+    await expect(track).toBeVisible();
+
+    const initialTransform = await track.evaluate(
+      (node) => getComputedStyle(node).transform,
+    );
+    await page.waitForTimeout(500);
+    const nextTransform = await track.evaluate(
+      (node) => getComputedStyle(node).transform,
+    );
+
+    if (testInfo.project.name === 'reduced-motion') {
+      expect(nextTransform).toBe(initialTransform);
+    } else {
+      expect(nextTransform).not.toBe(initialTransform);
+    }
+  });
+
   test('layers the last four gallery images in an overlapping cluster', async ({
     page,
     viewport,
