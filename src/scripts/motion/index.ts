@@ -1,78 +1,11 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MENU_EVENT = 'mua:menu';
 const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 type MotionWindow = Window & { __muaMotionFallback?: number };
-
-function initSmoothScroll(): Lenis | null {
-  if (REDUCED_MOTION.matches) {
-    return null;
-  }
-
-  const lenis = new Lenis({
-    lerp: 0.08,
-    smoothWheel: true,
-    wheelMultiplier: 0.9,
-    touchMultiplier: 1.15,
-  });
-
-  lenis.on('scroll', ScrollTrigger.update);
-
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-
-  gsap.ticker.lagSmoothing(0);
-
-  document.addEventListener(MENU_EVENT, (event) => {
-    const open = (event as CustomEvent<{ open: boolean }>).detail.open;
-
-    if (open) {
-      lenis.stop();
-    } else {
-      lenis.start();
-    }
-  });
-
-  return lenis;
-}
-
-function initAnchorScrolling(lenis: Lenis | null): void {
-  if (!lenis) {
-    return;
-  }
-
-  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const href = link.getAttribute('href');
-
-      if (!href || href === '#') {
-        return;
-      }
-
-      const target = document.querySelector<HTMLElement>(href);
-
-      if (!target) {
-        return;
-      }
-
-      event.preventDefault();
-
-      window.requestAnimationFrame(() => {
-        lenis.start();
-        lenis.scrollTo(target, {
-          offset: -76,
-          duration: 1.1,
-        });
-      });
-    });
-  });
-}
 
 function initHero(): void {
   if (REDUCED_MOTION.matches) {
@@ -249,7 +182,6 @@ function initServicesPin(): void {
       end: 'bottom 72%',
       pin: true,
       pinSpacing: true,
-      anticipatePin: 1,
       invalidateOnRefresh: true,
     });
 
@@ -308,21 +240,6 @@ function initFooterReveal(): void {
   );
 }
 
-function initServicesMarquee(): void {
-  const track = document.querySelector<HTMLElement>('.hero-rail-h__track');
-
-  if (!track) {
-    return;
-  }
-
-  gsap.to(track, {
-    xPercent: -50,
-    duration: 30,
-    ease: 'none',
-    repeat: -1,
-  });
-}
-
 export function initMotion(): void {
   const root = document.documentElement;
   const motionWindow = window as MotionWindow;
@@ -337,14 +254,11 @@ export function initMotion(): void {
     return;
   }
 
-  const lenis = initSmoothScroll();
-  initAnchorScrolling(lenis);
   initHero();
   initWordReveal();
   initReveals();
   initImageReveals();
   initServicesPin();
-  initServicesMarquee();
   initFooterReveal();
 
   document.fonts.ready.then(() => {

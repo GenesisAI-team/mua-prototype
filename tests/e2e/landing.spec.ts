@@ -153,34 +153,186 @@ test.describe('MUA landing', () => {
     ).toHaveCount(11);
   });
 
-  test('runs the services marquee on GSAP ticker and respects reduced motion', async ({
+  test('loops the services marquee on the compositor without jitter', async ({
     page,
     viewport,
   }, testInfo) => {
+    const reduced = testInfo.project.name === 'reduced-motion';
+
+    if (reduced) {
+      await page.setViewportSize({ width: 390, height: 844 });
+    }
+
     await page.goto('/');
 
     const track = page.locator('.hero-rail-h__track');
+    const isMobile = reduced || !viewport || viewport.width < 900;
 
-    if (!viewport || viewport.width >= 900) {
+    if (!isMobile) {
       await expect(track).not.toBeVisible();
       return;
     }
 
     await expect(track).toBeVisible();
+    await page.evaluate(() => {
+      document
+        .querySelector('.hero-rail-h')
+        ?.scrollIntoView({ block: 'center' });
+    });
+    await page.waitForTimeout(300);
 
-    const initialTransform = await track.evaluate(
-      (node) => getComputedStyle(node).transform,
-    );
-    await page.waitForTimeout(500);
-    const nextTransform = await track.evaluate(
-      (node) => getComputedStyle(node).transform,
-    );
+    const readX = () =>
+      track.evaluate((node) => {
+        const matrix = new DOMMatrixReadOnly(getComputedStyle(node).transform);
+        return matrix.m41;
+      });
 
-    if (testInfo.project.name === 'reduced-motion') {
-      expect(nextTransform).toBe(initialTransform);
-    } else {
-      expect(nextTransform).not.toBe(initialTransform);
+    if (reduced) {
+      const animationName = await track.evaluate(
+        (node) => getComputedStyle(node).animationName,
+      );
+      expect(animationName).toBe('none');
+
+      const initialX = await readX();
+      await page.waitForTimeout(400);
+      expect(await readX()).toBe(initialX);
+      return;
     }
+
+    const geometry = await track.evaluate((node) => {
+      const sets = [...node.children].map(
+        (set) => set.getBoundingClientRect().width,
+      );
+
+      return {
+        track: node.getBoundingClientRect().width,
+        setCount: sets.length,
+        firstSet: sets[0] ?? 0,
+        secondSet: sets[1] ?? 0,
+      };
+    });
+
+    expect(geometry.setCount).toBe(2);
+    expect(Math.abs(geometry.firstSet - geometry.secondSet)).toBeLessThan(1);
+    expect(
+      Math.abs(geometry.track - geometry.firstSet * 2),
+    ).toBeLessThan(1);
+
+    const animation = await track.evaluate((node) => {
+      const style = getComputedStyle(node);
+
+      return {
+        name: style.animationName,
+        duration: style.animationDuration,
+        iteration: style.animationIterationCount,
+        timing: style.animationTimingFunction,
+      };
+    });
+
+    expect(animation.name).toBe('hero-rail-h-loop');
+    expect(animation.duration).toBe('30s');
+    expect(animation.iteration).toBe('infinite');
+    expect(animation.timing).toBe('linear');
+
+    const samples = await track.evaluate(async (node) => {
+      return new Promise<{ t: number; x: number; dt: number }[]>((resolve) => {
+        const frames: { t: number; x: number; dt: number }[] = [];
+        let previous = performance.now();
+
+        const tick = (now: number) => {
+          const matrix = new DOMMatrixReadOnly(
+            getComputedStyle(node).transform,
+          );
+          frames.push({ t: now, x: matrix.m41, dt: now - previous });
+          previous = now;
+
+          if (frames.length < 30) {
+            requestAnimationFrame(tick);
+          } else {
+            resolve(frames);
+          }
+        };
+
+        requestAnimationFrame(tick);
+      });
+    });
+
+    const steps = samples.slice(1).flatMap((sample, index) => {
+      const previous = samples[index];
+
+      return previous ? [{ dt: sample.dt, dx: sample.x - previous.x }] : [];
+    });
+    const moving = steps.filter((step) => step.dt > 0);
+
+    expect(moving.length).toBeGreaterThan(10);
+    expect(steps.every((step) => step.dx <= 0.01)).toBe(true);
+
+    const speeds = moving.map((step) => -step.dx / step.dt);
+    const meanSpeed =
+      speeds.reduce((sum, speed) => sum + speed, 0) / speeds.length;
+    const expectedSpeed = geometry.track / 2 / 30_000;
+
+    expect(meanSpeed).toBeGreaterThan(expectedSpeed * 0.7);
+    expect(meanSpeed).toBeLessThan(expectedSpeed * 1.3);
+
+    for (const speed of speeds) {
+      expect(Math.abs(speed - meanSpeed) / meanSpeed).toBeLessThan(0.5);
+    }
+  });
+
+  test('tracks the wheel natively and stops without a smoothing tail', async ({
+    page,
+  }) => {
+    // Ventana estrecha reproducible (caso grabado del rebote).
+    await page.setViewportSize({ width: 542, height: 405 });
+    await page.goto('/');
+    await page.waitForTimeout(400);
+
+    const hasLenis = await page.evaluate(() =>
+      document.documentElement.classList.contains('lenis'),
+    );
+    expect(hasLenis).toBe(false);
+
+    await page.mouse.move(200, 200);
+    await page.mouse.wheel(0, 240);
+
+    const samples = await page.evaluate(
+      () =>
+        new Promise<number[]>((resolve) => {
+          const values: number[] = [];
+          const start = performance.now();
+
+          const tick = (now: number) => {
+            values.push(window.scrollY);
+
+            if (now - start < 700) {
+              requestAnimationFrame(tick);
+            } else {
+              resolve(values);
+            }
+          };
+
+          requestAnimationFrame(tick);
+        }),
+    );
+
+    expect(samples[samples.length - 1] ?? 0).toBeGreaterThan(0);
+
+    for (let index = 1; index < samples.length; index += 1) {
+      expect(samples[index] ?? 0).toBeGreaterThanOrEqual(
+        (samples[index - 1] ?? 0) - 2,
+      );
+    }
+
+    // Tras la inercia natural del navegador (~300ms) el scroll debe quedar
+    // quieto: con un suavizador JS seguiría avanzando hasta ~600ms.
+    await page.waitForTimeout(300);
+    const settled = await page.evaluate(() => window.scrollY);
+    await page.waitForTimeout(400);
+    const later = await page.evaluate(() => window.scrollY);
+
+    expect(later).toBeGreaterThanOrEqual(settled);
+    expect(later - settled).toBeLessThanOrEqual(1);
   });
 
   test('layers the last four gallery images in an overlapping cluster', async ({
