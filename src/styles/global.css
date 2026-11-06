@@ -6,7 +6,6 @@
 @import '@fontsource/manrope/latin-400.css';
 @import '@fontsource/manrope/latin-500.css';
 @import '@fontsource/manrope/latin-600.css';
-@import 'lenis/dist/lenis.css';
 
 @theme {
   --font-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
@@ -34,6 +33,7 @@
   html {
     background: var(--color-ivory);
     color: var(--color-charcoal);
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }

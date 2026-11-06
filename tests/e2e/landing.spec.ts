@@ -280,6 +280,61 @@ test.describe('MUA landing', () => {
     }
   });
 
+  test('tracks the wheel natively and stops without a smoothing tail', async ({
+    page,
+  }) => {
+    // Ventana estrecha reproducible (caso grabado del rebote).
+    await page.setViewportSize({ width: 542, height: 405 });
+    await page.goto('/');
+    await page.waitForTimeout(400);
+
+    const hasLenis = await page.evaluate(() =>
+      document.documentElement.classList.contains('lenis'),
+    );
+    expect(hasLenis).toBe(false);
+
+    await page.mouse.move(200, 200);
+    await page.mouse.wheel(0, 240);
+
+    const samples = await page.evaluate(
+      () =>
+        new Promise<number[]>((resolve) => {
+          const values: number[] = [];
+          const start = performance.now();
+
+          const tick = (now: number) => {
+            values.push(window.scrollY);
+
+            if (now - start < 700) {
+              requestAnimationFrame(tick);
+            } else {
+              resolve(values);
+            }
+          };
+
+          requestAnimationFrame(tick);
+        }),
+    );
+
+    expect(samples[samples.length - 1] ?? 0).toBeGreaterThan(0);
+
+    for (let index = 1; index < samples.length; index += 1) {
+      expect(samples[index] ?? 0).toBeGreaterThanOrEqual(
+        (samples[index - 1] ?? 0) - 2,
+      );
+    }
+
+    // Tras la inercia natural del navegador (~300ms) el scroll debe quedar
+    // quieto: con un suavizador JS seguiría avanzando hasta ~600ms.
+    await page.waitForTimeout(300);
+    const settled = await page.evaluate(() => window.scrollY);
+    await page.waitForTimeout(400);
+    const later = await page.evaluate(() => window.scrollY);
+
+    expect(later).toBeGreaterThanOrEqual(settled);
+    expect(later - settled).toBeLessThanOrEqual(1);
+  });
+
   test('layers the last four gallery images in an overlapping cluster', async ({
     page,
     viewport,

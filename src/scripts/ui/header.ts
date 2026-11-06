@@ -1,5 +1,3 @@
-const MENU_EVENT = 'mua:menu';
-
 export function initHeader(): void {
   const header = document.querySelector<HTMLElement>('[data-header]');
   const menu = document.querySelector<HTMLDialogElement>('[data-menu]');
@@ -30,9 +28,6 @@ export function initHeader(): void {
     openButton.setAttribute('aria-expanded', 'true');
     root.classList.add('menu-open');
     window.setTimeout(() => closeButton?.focus(), 0);
-    document.dispatchEvent(
-      new CustomEvent(MENU_EVENT, { detail: { open: true } }),
-    );
   };
 
   const closeMenu = () => {
@@ -40,6 +35,8 @@ export function initHeader(): void {
       return;
     }
 
+    // Release the scroll lock before the anchor default action navigates.
+    root.classList.remove('menu-open');
     menu.close();
   };
 
@@ -47,9 +44,6 @@ export function initHeader(): void {
     openButton?.setAttribute('aria-expanded', 'false');
     root.classList.remove('menu-open');
     openButton?.focus();
-    document.dispatchEvent(
-      new CustomEvent(MENU_EVENT, { detail: { open: false } }),
-    );
   };
 
   openButton?.addEventListener('click', openMenu);

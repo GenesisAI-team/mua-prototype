@@ -16,7 +16,7 @@ La base es GEN-9: composición, responsive, navegación, motion y SEO prudente. 
 - `src/layouts/BaseLayout.astro`: metadatos, aviso de preview, JSON-LD mínimo, header/footer y arranque de scripts.
 - `src/styles/global.css`: tokens `@theme`, tipografías Fontsource, componentes editoriales y estados de motion. No hay `tailwind.config`.
 - `src/scripts/ui/header.ts`: header sticky, menú móvil con `<dialog>` y bloqueo de scroll.
-- `src/scripts/motion/index.ts`: Lenis, GSAP, ScrollTrigger, reveals y pin.
+- `src/scripts/motion/index.ts`: GSAP, ScrollTrigger, reveals y pin sobre scroll nativo.
 
 ## Decisiones
 
@@ -33,15 +33,15 @@ Cada slot declara ratio, dimensiones reales y, cuando hace falta, `objectPositio
 ### Motion
 
 - Un único pin: la introducción de servicios en desktop (`min-width: 1024px`). El recorrido termina con la lista de tarjetas, antes del tarifario; en móvil no se pinea.
-- Lenis solo con `prefers-reduced-motion: no-preference`; se sincroniza con `lenis.on('scroll', ScrollTrigger.update)` y el ticker de GSAP.
-- Las anclas se interceptan solo cuando Lenis está activo. Sin Lenis, el navegador usa el scroll nativo y `scroll-margin-top`.
+- **Scroll nativo** para rueda y táctil (GEN-28): Lenis se retiró porque su suavizado en hilo principal convertía cada notch de rueda en una rampa de ~0,5–0,6 s que se desfasaba del hilo del compositor; el vídeo de evidencia mostró el loop del carrusel constante (~41,4 px/s) mientras la página costeaba tras cada gesto — el "rebote" perceptual. Sin suavizador JS, el scroll corre en el compositor y sigue el gesto. `anticipatePin` se elimina del pin porque solo compensaba el desfase del scroll suavizado.
+- Las anclas no se interceptan con JS: `html { scroll-behavior: smooth }` (solo navegación programática; la rueda no se ve afectada) + `scroll-margin-top` en `[id]`.
 - Las animaciones se limitan a `transform`, `opacity` y `clip-path`.
-- El hero revela el título por líneas y enmascara las imágenes visibles del mosaico con un stagger corto (incluidas las del rail); las imágenes del hero se excluyen de `initImageReveals` para no duplicar triggers. El loop del rail es CSS puro (`@keyframes` `translateY(-50%)`, 30s) y con `prefers-reduced-motion` queda estático. La franja `.hero-rail-h`, ya en la sección Servicios y visible solo en móvil (<900px), usa dos sets idénticos en un track `width: max-content`. Su loop es **CSS puro en el compositor** (`@keyframes` `hero-rail-h-loop`, `translate3d(0 → -50%)`, 30s, `linear`, `infinite`): un único propietario del `transform`, sin ticker ni escrituras de JS por fotograma, de modo que un long task del hilo principal no lo congela ni lo hace saltar (el `lagSmoothing(0)` de Lenis deja de amplificarlo). Con dos sets idénticos el desplazamiento de `-50%` coincide exactamente con la costura. Tiene 0.75rem de margen entre fotos y altura `clamp(11rem, 70vw, 16rem)`; sus ítems usan `reveal={false}` para evitar clips GSAP mientras se desplaza y `prefers-reduced-motion` detiene la animación.
+- El hero revela el título por líneas y enmascara las imágenes visibles del mosaico con un stagger corto (incluidas las del rail); las imágenes del hero se excluyen de `initImageReveals` para no duplicar triggers. El loop del rail es CSS puro (`@keyframes` `translateY(-50%)`, 30s) y con `prefers-reduced-motion` queda estático. La franja `.hero-rail-h`, ya en la sección Servicios y visible solo en móvil (<900px), usa dos sets idénticos en un track `width: max-content`. Su loop es **CSS puro en el compositor** (`@keyframes` `hero-rail-h-loop`, `translate3d(0 → -50%)`, 30s, `linear`, `infinite`): un único propietario del `transform`, sin ticker ni escrituras de JS por fotograma, de modo que un long task del hilo principal no lo congela ni lo hace saltar, y ya no compite ningún suavizador JS de scroll. Con dos sets idénticos el desplazamiento de `-50%` coincide exactamente con la costura. Tiene 0.75rem de margen entre fotos y altura `clamp(11rem, 70vw, 16rem)`; sus ítems usan `reveal={false}` para evitar clips GSAP mientras se desplaza y `prefers-reduced-motion` detiene la animación.
 - El hero móvil añade un flotante 3D en **CSS puro sobre el compositor** (sin JS ni listeners de scroll, por lo que no se reinicia ni se pierde nunca durante el scroll): dos `@keyframes` (`hero-float-a/b`, 3.4s `ease-in-out` `infinite alternate`) alternan `rotateX` y `rotateY` ±10° en signos espejo sobre la rotación Z base horneada, con `perspective(1200px)` centrada en cada foto y `will-change: transform` para que la animación viva en el hilo del compositor. Las dos fotos quedan ocultas en desktop, así que el efecto es solo móvil de facto; `prefers-reduced-motion` las deja estáticas (`animation: none`) conservando su inclinación Z base.
 - `ScrollTrigger.batch` agrupa los reveals para evitar decenas de triggers simultáneos.
-- El menú móvil detiene y reanuda Lenis mediante el evento `mua:menu`.
+- El menú móvil libera el bloqueo de scroll (`menu-open`) de forma síncrona en `closeMenu`, antes de que la acción por defecto del enlace de ancla navegue; el `<dialog>` ya impedía el scroll nativo con `overflow: hidden` en `html/body`.
 - Si el módulo de motion falla, un timeout inline añade `motion-failed` y muestra todo el contenido.
-- Con `prefers-reduced-motion` no se crea Lenis ni se registran reveals; el CSS fuerza el estado visible.
+- Con `prefers-reduced-motion` no se registran animaciones JS y el CSS fuerza el estado visible; `scroll-behavior` vuelve a `auto` dentro del bloque de motion reducido.
 
 ### Navegación
 
