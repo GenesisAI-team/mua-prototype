@@ -672,11 +672,32 @@
     }
   }
 
+  /* El loop corre en el compositor: un único translate3d por fotograma, sin
+     escrituras de transform desde el ticker principal. Con dos sets idénticos,
+     -50% del ancho del track coincide con la costura. */
+  @keyframes hero-rail-h-loop {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
   .hero-rail-h__track {
     display: flex;
     width: max-content;
     height: 100%;
+    transform: translate3d(0, 0, 0);
     will-change: transform;
+    animation: hero-rail-h-loop 30s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-rail-h__track {
+      animation: none;
+    }
   }
 
   .hero-rail-h__set {
